@@ -1,0 +1,208 @@
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background-color: #111111;
+  border-bottom: 1px solid #222;
+}
+
+nav h2 {
+  color: #a855f7;
+  font-size: 24px;
+}
+
+nav button {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #a855f7;
+  padding: 8px 20px;
+  margin-left: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+nav button:hover {
+  background-color: #a855f7;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  text-align: center;
+  padding: 120px 60px;
+  background: linear-gradient(135deg, #0a0a0a, #1a0a2e);
+}
+
+.hero h1 {
+  font-size: 52px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.hero h1 span {
+  color: #a855f7;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #aaaaaa;
+  margin-bottom: 40px;
+}
+
+.hero button {
+  background-color: #a855f7;
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.hero button:hover {
+  background-color: #9333ea;
+}
+
+/* ===== FEATURES SECTION ===== */
+.features {
+  padding: 80px 60px;
+  text-align: center;
+  background-color: #111111;
+}
+
+.features h2 {
+  font-size: 36px;
+  margin-bottom: 50px;
+  color: #ffffff;
+}
+
+.features-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.feature-card {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 40px 30px;
+  width: 280px;
+}
+
+.feature-card h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #a855f7;
+}
+
+.feature-card p {
+  color: #aaaaaa;
+  line-height: 1.6;
+}
+
+/* ===== PRICING SECTION ===== */
+.pricing {
+  padding: 80px 60px;
+  text-align: center;
+  background-color: #0a0a0a;
+}
+
+.pricing h2 {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+
+.pricing-subtitle {
+  text-align: center;
+  color: #aaaaaa;
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.pricing-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.pricing-card {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 40px 30px;
+  width: 280px;
+  position: relative;
+}
+
+.pricing-card.pro {
+  border-color: #a855f7;
+}
+
+.pricing-card h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.price {
+  font-size: 42px;
+  font-weight: bold;
+  color: #a855f7;
+  margin: 16px 0;
+}
+
+.popular-badge {
+  background-color: #a855f7;
+  color: white;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.pricing-card p {
+  color: #aaaaaa;
+  margin-bottom: 10px;
+}
+
+.pricing-card button {
+  margin-top: 20px;
+  background-color: #a855f7;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+.pricing-card button:hover {
+  background-color: #9333ea;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 30px;
+  background-color: #111111;
+  color: #666666;
+  border-top: 1px solid #222;
+}

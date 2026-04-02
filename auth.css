@@ -1,0 +1,173 @@
+/* ===== BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background-color: #111111;
+  border-bottom: 1px solid #222;
+}
+
+nav h2 {
+  color: #a855f7;
+  font-size: 24px;
+}
+
+nav a {
+  color: #aaaaaa;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: #a855f7;
+}
+
+/* ===== AUTH CONTAINER ===== */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  min-height: calc(100vh - 70px);
+}
+
+/* ===== AUTH CARD ===== */
+.auth-card {
+  background-color: #111111;
+  border: 1px solid #222;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 440px;
+  overflow: hidden;
+}
+
+/* ===== AUTH HEADER ===== */
+.auth-header {
+  background: linear-gradient(135deg, #1a0a2e, #0a0a0a);
+  padding: 40px;
+  text-align: center;
+  border-bottom: 1px solid #222;
+}
+
+.auth-header h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.auth-header p {
+  color: #aaaaaa;
+  font-size: 15px;
+}
+
+/* ===== AUTH BODY ===== */
+.auth-body {
+  padding: 40px;
+}
+
+/* ===== INPUT GROUP ===== */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  color: #aaaaaa;
+  margin-bottom: 8px;
+}
+
+.input-group input {
+  width: 100%;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #ffffff;
+  font-size: 15px;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #a855f7;
+}
+
+.input-group input::placeholder {
+  color: #555;
+}
+
+/* ===== FORGOT ROW ===== */
+.forgot-row {
+  text-align: right;
+  margin-bottom: 24px;
+  margin-top: -10px;
+}
+
+.forgot-row a {
+  color: #a855f7;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+/* ===== BUTTON ===== */
+button {
+  width: 100%;
+  padding: 14px;
+  background-color: #a855f7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+button:hover {
+  background-color: #9333ea;
+}
+
+/* ===== ERROR MESSAGE ===== */
+.error-message {
+  color: #f87171;
+  font-size: 14px;
+  text-align: center;
+  min-height: 20px;
+  margin-bottom: 10px;
+}
+
+/* ===== SWITCH AUTH ===== */
+.switch-auth {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.switch-auth p {
+  color: #aaaaaa;
+  font-size: 14px;
+}
+
+.switch-auth a {
+  color: #a855f7;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.switch-auth a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Buy Credits — VideoAI</title>
+    <link rel="stylesheet" href="pricing.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </head>
+
+  <body>
+
+    <nav>
+      <h2>VideoAI</h2>
+      <div class="nav-right">
+        <span id="userCredits">0 videos remaining</span>
+        <button onclick="window.location.href='dashboard.html'">Dashboard</button>
+        <button class="logout-btn">Logout</button>
+      </div>
+    </nav>
+
+    <div class="pricing-container">
+
+      <div class="pricing-header">
+        <h1>Buy Credit Packs</h1>
+        <p>Purchase credits and generate AI videos anytime. Credits never expire!</p>
+      </div>
+
+      <div class="plans-grid">
+
+        <div class="plan-card">
+          <h3>Starter</h3>
+          <div class="plan-price">₹149</div>
+          <div class="plan-videos">5 Videos</div>
+          <ul class="plan-features">
+            <li>✅ 720p quality</li>
+            <li>✅ No expiry</li>
+            <li>✅ Fast generation</li>
+          </ul>
+          <button class="buy-btn" onclick="buyPack('starter', 149, 5)">
+            Buy Starter Pack
+          </button>
+        </div>
+
+        <div class="plan-card popular">
+          <div class="popular-badge">Most Popular</div>
+          <h3>Popular</h3>
+          <div class="plan-price">₹399</div>
+          <div class="plan-videos">15 Videos</div>
+          <ul class="plan-features">
+            <li>✅ 1080p quality</li>
+            <li>✅ No expiry</li>
+            <li>✅ Fast generation</li>
+            <li>✅ Save ₹56</li>
+          </ul>
+          <button class="buy-btn" onclick="buyPack('popular', 399, 15)">
+            Buy Popular Pack
+          </button>
+        </div>
+
+        <div class="plan-card">
+          <h3>Pro</h3>
+          <div class="plan-price">₹799</div>
+          <div class="plan-videos">35 Videos</div>
+          <ul class="plan-features">
+            <li>✅ 1080p quality</li>
+            <li>✅ No expiry</li>
+            <li>✅ Priority generation</li>
+            <li>✅ Save ₹226</li>
+          </ul>
+          <button class="buy-btn" onclick="buyPack('pro', 799, 35)">
+            Buy Pro Pack
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <script src="pricing.js"></script>
+
+  </body>
+
+</html>

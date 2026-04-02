@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Dashboard — VideoAI</title>
+    <link rel="stylesheet" href="dashboard.css">
+  </head>
+
+  <body>
+
+    <nav>
+      <h2>VideoAI</h2>
+      <div class="nav-right">
+        <span>Welcome, Creator!</span>
+        <button class="logout-btn">Logout</button>
+      </div>
+    </nav>
+
+    <div class="dashboard-container">
+
+      <div class="prompt-section">
+        <h2>Generate Your Video</h2>
+        <p>Describe what you want to see in your video</p>
+
+        <textarea
+          id="promptInput"
+          placeholder="Example: A sunset over mountains with birds flying, cinematic slow motion..."
+        ></textarea>
+
+        <div class="options-row">
+          <select id="duration">
+            <option value="5">5 seconds</option>
+            <option value="10">10 seconds</option>
+          </select>
+          <select id="quality">
+            <option value="720">720p</option>
+            <option value="1080">1080p</option>
+          </select>
+        </div>
+
+        <button id="generateBtn">⚡ Generate Video</button>
+
+        <div class="credits-info">
+          <p>Videos remaining: <span id="credits">0</span></p>
+          <button id="buyCreditsBtn">🛒 Buy More Videos</button>
+        </div>
+      </div>
+
+      <div class="output-section">
+        <h2>Your Video</h2>
+        <div class="video-box" id="videoBox">
+          <div class="empty-state" id="emptyState">
+            <p>🎬</p>
+            <p>Your generated video will appear here</p>
+            <p>Type a prompt and click Generate</p>
+          </div>
+          <div class="loading-state" id="loadingState">
+            <div class="spinner"></div>
+            <p>Generating your video...</p>
+            <p>This may take 30-60 seconds</p>
+          </div>
+          <div class="result-state" id="resultState">
+            <video id="videoPlayer" controls>
+              <source src="" type="video/mp4">
+            </video>
+            <button class="download-btn">⬇ Download Video</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="history-section">
+      <h2>Your Recent Videos</h2>
+      <div class="history-grid" id="historyGrid">
+        <p style="color:#555">No videos yet. Generate your first video!</p>
+      </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+
+  </body>
+
+</html>
