@@ -18,7 +18,7 @@ document.querySelector(".logout-btn").addEventListener("click", function() {
 async function buyPack(packName, price, videos) {
 
   // Step 1 — Create order on backend
-  const response = await fetch("http://localhost:3000/create-order", {
+  const response = await fetch("https://videoai-backend-j5k9.onrender.com/create-order", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -46,7 +46,7 @@ async function buyPack(packName, price, videos) {
     handler: async function(response) {
 
       // Step 3 — Verify payment on backend
-      const verifyResponse = await fetch("http://localhost:3000/verify-payment", {
+      const verifyResponse = await fetch("https://videoai-backend-j5k9.onrender.com/verify-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -61,10 +61,8 @@ async function buyPack(packName, price, videos) {
       const verifyData = await verifyResponse.json();
 
       if (verifyData.success) {
-        // Update credits in localStorage
         user.credits = verifyData.newCredits;
         localStorage.setItem("user", JSON.stringify(user));
-
         alert("Payment successful! " + videos + " videos added to your account!");
         window.location.href = "dashboard.html";
       } else {

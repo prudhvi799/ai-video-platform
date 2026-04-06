@@ -1,4 +1,4 @@
-const API = "http://localhost:3000";
+const API = "https://videoai-backend-j5k9.onrender.com";
 
 const isLoginPage = document.getElementById("loginBtn");
 const isSignupPage = document.getElementById("signupBtn");
