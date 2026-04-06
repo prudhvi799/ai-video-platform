@@ -19,35 +19,44 @@
         <!-- TABS -->
         <div class="tabs">
           <button class="tab-btn active" id="imageTab" onclick="switchTab('image')">🎨 Generate Image</button>
-          <button class="tab-btn" id="videoTab" onclick="switchTab('video')">🎬 Generate Video</button>
+          <button class="tab-btn" id="videoTab" onclick="switchTab('video')">🎬 Generate Video <span class="soon-badge">Soon</span></button>
         </div>
 
-        <h2 id="sectionTitle">Generate AI Image</h2>
-        <p id="sectionSubtitle">Describe what you want to see in your image</p>
+        <!-- IMAGE SECTION -->
+        <div id="imageSection">
+          <h2>Generate AI Image</h2>
+          <p style="color:#aaa; margin-bottom:20px;">Describe what you want to see in your image</p>
 
-        <textarea
-          id="promptInput"
-          placeholder="Example: A sunset over mountains with birds flying, photorealistic..."
-        ></textarea>
+          <textarea
+            id="promptInput"
+            placeholder="Example: A sunset over mountains with birds flying, photorealistic..."
+          ></textarea>
 
-        <!-- VIDEO OPTIONS (hidden by default) -->
-        <div class="options-row" id="videoOptions" style="display:none;">
-          <select id="duration">
-            <option value="5">5 seconds</option>
-            <option value="10">10 seconds</option>
-          </select>
-          <select id="quality">
-            <option value="720">720p</option>
-            <option value="1080">1080p</option>
-          </select>
+          <button id="generateBtn">⚡ Generate Image</button>
+
+          <div class="credits-info">
+            <p>Credits remaining: <span id="credits">0</span></p>
+            <button id="buyCreditsBtn">⭐ Upgrade to Unlimited — ₹9/month</button>
+          </div>
         </div>
 
-        <button id="generateBtn">⚡ Generate Image</button>
-
-        <div class="credits-info">
-          <p>Credits remaining: <span id="credits">0</span></p>
-          <button id="buyCreditsBtn">⭐ Upgrade to Unlimited — ₹9/month</button>
+        <!-- COMING SOON SECTION (hidden by default) -->
+        <div id="videoSection" style="display:none;">
+          <div class="coming-soon-box">
+            <p class="coming-soon-icon">🎬</p>
+            <h2>AI Video Generation</h2>
+            <p class="coming-soon-date">Coming — May 2026</p>
+            <p class="coming-soon-desc">Generate stunning AI videos from just a text prompt! High quality 720p videos at the most affordable price in India.</p>
+            <div class="coming-soon-features">
+              <div class="cs-feature">⚡ Fast generation</div>
+              <div class="cs-feature">🎯 720p quality</div>
+              <div class="cs-feature">💰 Cheapest in India</div>
+              <div class="cs-feature">📱 Download instantly</div>
+            </div>
+            <p class="coming-soon-notify">🔔 Stay subscribed to get early access!</p>
+          </div>
         </div>
+
       </div>
 
       <div class="output-section">
@@ -72,22 +81,14 @@
             <button class="download-btn" id="downloadImageBtn">⬇ Download Image</button>
           </div>
 
-          <!-- VIDEO RESULT -->
-          <div class="result-state" id="videoResult" style="display:none;">
-            <video id="videoOutput" controls style="width:100%; border-radius:8px;">
-              <source src="" type="video/mp4">
-            </video>
-            <button class="download-btn" id="downloadVideoBtn">⬇ Download Video</button>
-          </div>
-
         </div>
       </div>
     </div>
 
     <div class="history-section">
-      <h2>Your Recent Generations</h2>
+      <h2>Your Recent Images</h2>
       <div class="history-grid" id="historyGrid">
-        <p style="color:#555">No generations yet. Create your first one!</p>
+        <p style="color:#555">No images yet. Generate your first one!</p>
       </div>
     </div>
 

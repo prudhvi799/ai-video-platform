@@ -340,3 +340,75 @@ select:focus {
   border-color: #a855f7;
   color: #a855f7;
 }
+
+/* ===== COMING SOON ===== */
+.soon-badge {
+  background: #a855f7;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.coming-soon-box {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.coming-soon-icon {
+  font-size: 60px;
+  margin-bottom: 16px;
+}
+
+.coming-soon-box h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.coming-soon-date {
+  color: #a855f7;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  border: 1px solid #a855f7;
+  display: inline-block;
+  padding: 6px 20px;
+  border-radius: 20px;
+}
+
+.coming-soon-desc {
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.coming-soon-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.cs-feature {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.coming-soon-notify {
+  color: #a855f7;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}
