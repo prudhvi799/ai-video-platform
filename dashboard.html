@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Dashboard — ImageAI</title>
+    <title>Dashboard — VideoAI</title>
     <link rel="stylesheet" href="dashboard.css">
   </head>
   <body>
     <nav>
-      <h2>ImageAI</h2>
+      <h2>VideoAI</h2>
       <div class="nav-right">
         <span>Welcome, Creator!</span>
         <button class="logout-btn">Logout</button>
@@ -15,47 +15,79 @@
 
     <div class="dashboard-container">
       <div class="prompt-section">
-        <h2>Generate AI Image</h2>
-        <p>Describe what you want to see in your image</p>
+
+        <!-- TABS -->
+        <div class="tabs">
+          <button class="tab-btn active" id="imageTab" onclick="switchTab('image')">🎨 Generate Image</button>
+          <button class="tab-btn" id="videoTab" onclick="switchTab('video')">🎬 Generate Video</button>
+        </div>
+
+        <h2 id="sectionTitle">Generate AI Image</h2>
+        <p id="sectionSubtitle">Describe what you want to see in your image</p>
 
         <textarea
           id="promptInput"
           placeholder="Example: A sunset over mountains with birds flying, photorealistic..."
         ></textarea>
 
+        <!-- VIDEO OPTIONS (hidden by default) -->
+        <div class="options-row" id="videoOptions" style="display:none;">
+          <select id="duration">
+            <option value="5">5 seconds</option>
+            <option value="10">10 seconds</option>
+          </select>
+          <select id="quality">
+            <option value="720">720p</option>
+            <option value="1080">1080p</option>
+          </select>
+        </div>
+
         <button id="generateBtn">⚡ Generate Image</button>
 
         <div class="credits-info">
-          <p>Images remaining: <span id="credits">0</span></p>
+          <p>Credits remaining: <span id="credits">0</span></p>
           <button id="buyCreditsBtn">⭐ Upgrade to Unlimited — ₹9/month</button>
         </div>
       </div>
 
       <div class="output-section">
-        <h2>Your Image</h2>
-        <div class="video-box" id="imageBox">
+        <h2 id="outputTitle">Your Image</h2>
+        <div class="video-box">
+
           <div class="empty-state" id="emptyState">
-            <p>🎨</p>
-            <p>Your generated image will appear here</p>
+            <p id="emptyIcon">🎨</p>
+            <p>Your generated content will appear here</p>
             <p>Type a prompt and click Generate</p>
           </div>
+
           <div class="loading-state" id="loadingState">
             <div class="spinner"></div>
-            <p>Generating your image...</p>
-            <p>This may take 5-10 seconds</p>
+            <p id="loadingText">Generating your image...</p>
+            <p>Please wait...</p>
           </div>
-          <div class="result-state" id="resultState">
-            <img id="imageResult" src="" style="width:100%; border-radius:8px; margin-bottom:16px;">
-            <button class="download-btn" id="downloadBtn">⬇ Download Image</button>
+
+          <!-- IMAGE RESULT -->
+          <div class="result-state" id="imageResult" style="display:none;">
+            <img id="imageOutput" src="" style="width:100%; border-radius:8px; margin-bottom:16px;">
+            <button class="download-btn" id="downloadImageBtn">⬇ Download Image</button>
           </div>
+
+          <!-- VIDEO RESULT -->
+          <div class="result-state" id="videoResult" style="display:none;">
+            <video id="videoOutput" controls style="width:100%; border-radius:8px;">
+              <source src="" type="video/mp4">
+            </video>
+            <button class="download-btn" id="downloadVideoBtn">⬇ Download Video</button>
+          </div>
+
         </div>
       </div>
     </div>
 
     <div class="history-section">
-      <h2>Your Recent Images</h2>
+      <h2>Your Recent Generations</h2>
       <div class="history-grid" id="historyGrid">
-        <p style="color:#555">No images yet. Generate your first image!</p>
+        <p style="color:#555">No generations yet. Create your first one!</p>
       </div>
     </div>
 
