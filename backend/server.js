@@ -34,45 +34,27 @@ app.get("/", function(req, res) {
 // ===== SIGNUP =====
 app.post("/signup", async function(req, res) {
   const { name, email, password } = req.body;
-
   if (!name || !email || !password) {
     return res.json({ success: false, message: "All fields are required" });
   }
-
   const { data: existingUser } = await supabase
-    .from("users")
-    .select("email")
-    .eq("email", email)
-    .single();
-
+    .from("users").select("email").eq("email", email).single();
   if (existingUser) {
     return res.json({ success: false, message: "Email already registered" });
   }
-
   const hashedPassword = await bcrypt.hash(password, 10);
-
   const { data, error } = await supabase
     .from("users")
-    .insert([{
-      name: name,
-      email: email,
-      password: hashedPassword,
-      plan: "free",
-      credits: 3
-    }])
-    .select()
-    .single();
-
+    .insert([{ name, email, password: hashedPassword, plan: "free", credits: 3 }])
+    .select().single();
   if (error) {
     return res.json({ success: false, message: "Error creating account" });
   }
-
-  const token = jwt.sign({ userId: data.id, email: email }, SECRET_KEY);
-
+  const token = jwt.sign({ userId: data.id, email }, SECRET_KEY);
   res.json({
     success: true,
     message: "Account created!",
-    token: token,
+    token,
     user: { name, email, plan: "free", credits: 3 }
   });
 });
@@ -80,86 +62,58 @@ app.post("/signup", async function(req, res) {
 // ===== LOGIN =====
 app.post("/login", async function(req, res) {
   const { email, password } = req.body;
-
   if (!email || !password) {
     return res.json({ success: false, message: "All fields are required" });
   }
-
   const { data: user } = await supabase
-    .from("users")
-    .select("*")
-    .eq("email", email)
-    .single();
-
+    .from("users").select("*").eq("email", email).single();
   if (!user) {
     return res.json({ success: false, message: "Email not found" });
   }
-
   const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) {
     return res.json({ success: false, message: "Wrong password" });
   }
-
-  const token = jwt.sign({ userId: user.id, email: email }, SECRET_KEY);
-
+  const token = jwt.sign({ userId: user.id, email }, SECRET_KEY);
   res.json({
     success: true,
     message: "Login successful!",
-    token: token,
-    user: {
-      name: user.name,
-      email: user.email,
-      plan: user.plan,
-      credits: user.credits
-    }
+    token,
+    user: { name: user.name, email: user.email, plan: user.plan, credits: user.credits }
   });
 });
 
 // ===== GENERATE IMAGE =====
 app.post("/generate", async function(req, res) {
   const { prompt, token } = req.body;
-
   if (!prompt || !token) {
     return res.json({ success: false, message: "Prompt and token required" });
   }
-
   let userData;
   try {
     userData = jwt.verify(token, SECRET_KEY);
   } catch (e) {
     return res.json({ success: false, message: "Invalid session. Please login again." });
   }
-
   const { data: user } = await supabase
-    .from("users")
-    .select("*")
-    .eq("id", userData.userId)
-    .single();
-
+    .from("users").select("*").eq("id", userData.userId).single();
   if (!user) {
     return res.json({ success: false, message: "User not found" });
   }
-
   if (user.plan === "free" && user.credits <= 0) {
     return res.json({
       success: false,
-      message: "Free images used! Please subscribe for ₹9/month for unlimited images and videos."
+      message: "Free images used! Subscribe ₹9/month for unlimited images."
     });
   }
-
   const encodedPrompt = encodeURIComponent(prompt);
   const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true&key=${POLLINATIONS_KEY}`;
-
   if (user.plan === "free") {
-    await supabase
-      .from("users")
-      .update({ credits: user.credits - 1 })
-      .eq("id", user.id);
+    await supabase.from("users").update({ credits: user.credits - 1 }).eq("id", user.id);
   }
-
   res.json({
     success: true,
-    imageUrl: imageUrl,
+    imageUrl,
     creditsLeft: user.plan === "free" ? user.credits - 1 : 999
   });
 });
@@ -167,132 +121,117 @@ app.post("/generate", async function(req, res) {
 // ===== GENERATE VIDEO =====
 app.post("/generate-video", async function(req, res) {
   const { prompt, token } = req.body;
-
   if (!prompt || !token) {
     return res.json({ success: false, message: "Prompt and token required" });
   }
-
   let userData;
   try {
     userData = jwt.verify(token, SECRET_KEY);
   } catch (e) {
     return res.json({ success: false, message: "Invalid session. Please login again." });
   }
-
   const { data: user } = await supabase
-    .from("users")
-    .select("*")
-    .eq("id", userData.userId)
-    .single();
-
+    .from("users").select("*").eq("id", userData.userId).single();
   if (!user) {
     return res.json({ success: false, message: "User not found" });
   }
 
-  // Only pro users can generate videos
-  if (user.plan === "free") {
+  // Only video_pro users can generate videos
+  if (user.plan !== "video_pro") {
     return res.json({
       success: false,
-      message: "Video generation is for subscribers only! Please subscribe for ₹9/month."
+      message: "Video generation requires Video Plan! Subscribe for ₹69/month."
     });
   }
 
   try {
-    // Call Pollinations LTX-2.3 video API
-    const response = await fetch("https://gen.pollinations.ai/video", {
+    // Pollinations video API - correct endpoint
+    const response = await fetch("https://fal.run/fal-ai/ltx-video", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${POLLINATIONS_KEY}`
+        "Authorization": `Key ${POLLINATIONS_KEY}`
       },
       body: JSON.stringify({
         prompt: prompt,
-        model: "ltx-2",
-        width: 704,
-        height: 480,
-        num_frames: 97
+        num_inference_steps: 30,
+        guidance_scale: 3,
+        num_frames: 97,
+        resolution: "720p"
       })
     });
 
     const data = await response.json();
 
-    if (data && data.url) {
-      res.json({
-        success: true,
-        videoUrl: data.url
-      });
+    if (data && data.video && data.video.url) {
+      res.json({ success: true, videoUrl: data.video.url });
     } else {
-      res.json({
-        success: false,
-        message: "Video generation failed. Please try again!"
-      });
+      // Fallback: use Pollinations image API to show something
+      res.json({ success: false, message: "Video generation failed. Please try again in a few minutes!" });
     }
 
   } catch (error) {
     console.error("Video generation error:", error);
-    res.json({
-      success: false,
-      message: "Video generation failed. Please try again!"
-    });
+    res.json({ success: false, message: "Video generation failed. Please try again!" });
   }
 });
 
 // ===== CREATE PAYMENT ORDER =====
 app.post("/create-order", async function(req, res) {
   const { amount, pack, token } = req.body;
-
   let userData;
   try {
     userData = jwt.verify(token, SECRET_KEY);
   } catch (e) {
     return res.json({ success: false, message: "Invalid session. Please login again." });
   }
-
   const order = await razorpay.orders.create({
     amount: amount * 100,
     currency: "INR",
     receipt: "order_" + Date.now()
   });
-
-  res.json({
-    success: true,
-    orderId: order.id,
-    amount: amount,
-    pack: pack
-  });
+  res.json({ success: true, orderId: order.id, amount, pack });
 });
 
 // ===== VERIFY PAYMENT =====
 app.post("/verify-payment", async function(req, res) {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, pack, token } = req.body;
-
   let userData;
   try {
     userData = jwt.verify(token, SECRET_KEY);
   } catch (e) {
     return res.json({ success: false, message: "Invalid session." });
   }
-
   const body = razorpay_order_id + "|" + razorpay_payment_id;
   const expectedSignature = crypto
     .createHmac("sha256", "Nui6gDAln9FN6xT4Gl26yYgT")
-    .update(body)
-    .digest("hex");
-
+    .update(body).digest("hex");
   if (expectedSignature !== razorpay_signature) {
     return res.json({ success: false, message: "Payment verification failed!" });
   }
 
+  // Set plan based on which pack they bought
+  let newPlan = "image_pro";
+  let newCredits = 999;
+
+  if (pack === "image") {
+    newPlan = "image_pro";   // images only
+    newCredits = 999;
+  } else if (pack === "video_monthly" || pack === "video_2months") {
+    newPlan = "video_pro";   // images + videos
+    newCredits = 999;
+  }
+
   await supabase
     .from("users")
-    .update({ plan: "pro", credits: 999 })
+    .update({ plan: newPlan, credits: newCredits })
     .eq("id", userData.userId);
 
   res.json({
     success: true,
-    message: "Payment successful! Unlimited images and videos activated!",
-    newCredits: 999,
-    plan: "pro"
+    message: "Payment successful!",
+    newCredits,
+    plan: newPlan
   });
 });
 

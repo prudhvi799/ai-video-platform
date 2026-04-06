@@ -6,7 +6,26 @@ if (!user || !token) {
 }
 
 document.querySelector(".nav-right span").textContent = "Welcome, " + user.name + "!";
-document.getElementById("credits").textContent = user.plan === "pro" ? "Unlimited" : user.credits;
+
+// Show correct credits based on plan
+const creditsEl = document.getElementById("credits");
+if (user.plan === "video_pro") {
+  creditsEl.textContent = "Unlimited";
+} else if (user.plan === "image_pro") {
+  creditsEl.textContent = "Unlimited";
+} else {
+  creditsEl.textContent = user.credits;
+}
+
+// Show correct upgrade button text
+const buyBtn = document.getElementById("buyCreditsBtn");
+if (user.plan === "free") {
+  buyBtn.textContent = "⭐ Upgrade — ₹9/month images or ₹69/month with videos";
+} else if (user.plan === "image_pro") {
+  buyBtn.textContent = "🎬 Upgrade to Videos Plan — ₹69/month";
+} else {
+  buyBtn.style.display = "none";
+}
 
 const generateBtn = document.getElementById("generateBtn");
 const generateVideoBtn = document.getElementById("generateVideoBtn");
@@ -22,7 +41,6 @@ function switchTab(tab) {
   document.getElementById("imageTab").classList.toggle("active", tab === "image");
   document.getElementById("videoTab").classList.toggle("active", tab === "video");
 
-  // Reset output area
   emptyState.style.display = "block";
   loadingState.style.display = "none";
   imageResult.style.display = "none";
@@ -42,13 +60,13 @@ function switchTab(tab) {
     document.getElementById("historyTitle").textContent = "Your Recent Videos";
     document.getElementById("emptyIcon").textContent = "🎬";
 
-    // Show lock for free users, generate button for pro users
-    if (user.plan === "free") {
-      document.getElementById("videoLockBox").style.display = "block";
-      document.getElementById("videoGenerateBox").style.display = "none";
-    } else {
+    // Show lock if NOT video_pro
+    if (user.plan === "video_pro") {
       document.getElementById("videoLockBox").style.display = "none";
       document.getElementById("videoGenerateBox").style.display = "block";
+    } else {
+      document.getElementById("videoLockBox").style.display = "block";
+      document.getElementById("videoGenerateBox").style.display = "none";
     }
   }
 }
