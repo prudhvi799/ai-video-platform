@@ -52,7 +52,6 @@ function switchTab(tab) {
     document.getElementById("outputTitle").textContent = "Your Image";
     document.getElementById("historyTitle").textContent = "Your Recent Images";
     document.getElementById("emptyIcon").textContent = "🎨";
-
   } else {
     document.getElementById("imageSection").style.display = "none";
     document.getElementById("videoSection").style.display = "block";
@@ -60,7 +59,6 @@ function switchTab(tab) {
     document.getElementById("historyTitle").textContent = "Your Recent Videos";
     document.getElementById("emptyIcon").textContent = "🎬";
 
-    // Show lock if NOT video_pro
     if (user.plan === "video_pro") {
       document.getElementById("videoLockBox").style.display = "none";
       document.getElementById("videoGenerateBox").style.display = "block";
@@ -98,7 +96,11 @@ generateBtn.addEventListener("click", async function() {
     const response = await fetch("https://videoai-backend-j5k9.onrender.com/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt, token })
+      body: JSON.stringify({ 
+        prompt, 
+        token,
+        image: attachedImageBase64   // ✅ ADDED HERE
+      })
     });
 
     const data = await response.json();
@@ -154,7 +156,7 @@ generateVideoBtn.addEventListener("click", async function() {
   imageResult.style.display = "none";
   videoResult.style.display = "none";
   loadingState.style.display = "block";
-  document.getElementById("loadingText").textContent = "Generating your video... this takes 1-3 minutes!";
+  document.getElementById("loadingText").textContent = "Generating your video...";
 
   try {
     const response = await fetch("https://videoai-backend-j5k9.onrender.com/generate-video", {
@@ -227,3 +229,30 @@ document.querySelector(".logout-btn").addEventListener("click", function() {
   localStorage.removeItem("user");
   window.location.href = "index.html";
 });
+
+
+// ===== FILE ATTACH (ADDED AT BOTTOM) =====
+let attachedImageBase64 = null;
+
+function handleFileAttach(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    attachedImageBase64 = e.target.result;
+
+    document.getElementById("attachedImagePreview").src = e.target.result;
+    document.getElementById("imagePreviewBox").style.display = "block";
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function removeAttachedImage() {
+  attachedImageBase64 = null;
+
+  document.getElementById("attachedImagePreview").src = "";
+  document.getElementById("imagePreviewBox").style.display = "none";
+  document.getElementById("fileInput").value = "";
+}

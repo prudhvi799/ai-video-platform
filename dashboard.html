@@ -27,12 +27,39 @@
           <h2>Generate AI Image</h2>
           <p style="color:#aaa; margin-bottom:20px;">Describe what you want to see in your image</p>
 
-          <textarea
-            id="promptInput"
-            placeholder="Example: A sunset over mountains with birds flying, photorealistic..."
-          ></textarea>
-
-          <button id="generateBtn">⚡ Generate Image</button>
+          <!-- GEMINI STYLE INPUT -->
+          <div class="chat-input-box">
+            <div class="chat-input-top">
+              <textarea
+                id="promptInput"
+                placeholder="Describe your image... A sunset over mountains, photorealistic..."
+                rows="3"
+              ></textarea>
+            </div>
+            <!-- Attached image preview -->
+            <div id="imagePreviewBox" style="display:none; padding:0 12px 8px;">
+              <div style="position:relative; display:inline-block;">
+                <img id="attachedImagePreview" src="" style="height:60px; border-radius:8px; border:1px solid #444;">
+                <button onclick="removeAttachedImage()" style="position:absolute; top:-6px; right:-6px; background:#333; border:none; color:#fff; border-radius:50%; width:18px; height:18px; cursor:pointer; font-size:11px;">✕</button>
+              </div>
+            </div>
+            <div class="chat-input-bottom">
+              <div class="chat-input-left">
+                <!-- + File attach button -->
+                <button class="chat-action-btn" onclick="document.getElementById('fileInput').click()" title="Attach image">
+                  <span style="font-size:20px; font-weight:300;">+</span>
+                </button>
+                <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="handleFileAttach(event)">
+              </div>
+              <div class="chat-input-right">
+                <button class="send-btn" id="generateBtn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                    <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
 
           <div class="credits-info">
             <p>Credits remaining: <span id="credits">0</span></p>
@@ -45,10 +72,30 @@
           <h2>Generate AI Video</h2>
           <p style="color:#aaa; margin-bottom:20px;">Describe what you want to see in your video</p>
 
-          <textarea
-            id="videoPromptInput"
-            placeholder="Example: A sunset over mountains with birds flying, cinematic slow motion..."
-          ></textarea>
+          <!-- GEMINI STYLE INPUT FOR VIDEO -->
+          <div class="chat-input-box">
+            <div class="chat-input-top">
+              <textarea
+                id="videoPromptInput"
+                placeholder="Describe your video... A sunset over mountains, cinematic slow motion..."
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="chat-input-bottom">
+              <div class="chat-input-left">
+                <button class="chat-action-btn" title="Attach file (coming soon)" style="opacity:0.4; cursor:not-allowed;">
+                  <span style="font-size:20px; font-weight:300;">+</span>
+                </button>
+              </div>
+              <div class="chat-input-right">
+                <button class="send-btn" id="generateVideoBtn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                    <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
 
           <!-- LOCK BOX — shown for free and image_pro users -->
           <div id="videoLockBox" style="display:none; margin-top:20px; background:#1a1a1a; border:1px solid #a855f7; border-radius:12px; padding:24px; text-align:center;">
@@ -65,9 +112,8 @@
             </div>
           </div>
 
-          <!-- PRO USER GENERATE BUTTON — shown only for video_pro -->
+          <!-- PRO USER INFO — shown only for video_pro -->
           <div id="videoGenerateBox" style="display:none;">
-            <button id="generateVideoBtn">⚡ Generate Video</button>
             <div class="credits-info">
               <p style="color:#aaa; font-size:13px; margin-top:10px;">⏱ Video takes 1-3 minutes to generate</p>
             </div>
@@ -84,7 +130,7 @@
           <div class="empty-state" id="emptyState">
             <p id="emptyIcon">🎨</p>
             <p>Your generated content will appear here</p>
-            <p>Type a prompt and click Generate</p>
+            <p>Type a prompt and click Send</p>
           </div>
 
           <div class="loading-state" id="loadingState">
