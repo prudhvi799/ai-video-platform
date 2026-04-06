@@ -14,8 +14,8 @@ const supabase = createClient(
 
 // ===== RAZORPAY =====
 const razorpay = new Razorpay({
-  key_id: "rzp_test_SYcOA5M3L1juZZ",
-  key_secret: "lHRlL79Ejt8CxfmTYGZRfG3M"
+  key_id: "rzp_live_Sa7HKNvKWrLneT",
+  key_secret: "Nui6gDAln9FN6xT4Gl26yYgT"
 });
 
 const app = express();
@@ -137,7 +137,6 @@ app.post("/generate", async function(req, res) {
     return res.json({ success: false, message: "User not found" });
   }
 
-  // Check credits for free plan
   if (user.plan === "free" && user.credits <= 0) {
     return res.json({
       success: false,
@@ -145,11 +144,9 @@ app.post("/generate", async function(req, res) {
     });
   }
 
-  // Generate image using Pollinations AI (free!)
   const encodedPrompt = encodeURIComponent(prompt);
   const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true`;
 
-  // Deduct credit only for free plan
   if (user.plan === "free") {
     await supabase
       .from("users")
@@ -202,7 +199,7 @@ app.post("/verify-payment", async function(req, res) {
 
   const body = razorpay_order_id + "|" + razorpay_payment_id;
   const expectedSignature = crypto
-    .createHmac("sha256", "lHRlL79Ejt8CxfmTYGZRfG3M")
+    .createHmac("sha256", "Nui6gDAln9FN6xT4Gl26yYgT")
     .update(body)
     .digest("hex");
 
@@ -210,7 +207,6 @@ app.post("/verify-payment", async function(req, res) {
     return res.json({ success: false, message: "Payment verification failed!" });
   }
 
-  // Upgrade user to pro plan with unlimited images
   await supabase
     .from("users")
     .update({ plan: "pro", credits: 999 })

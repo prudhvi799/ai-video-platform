@@ -28,7 +28,7 @@ async function buyPack(packName, price) {
   }
 
   const options = {
-    key: "rzp_test_SYcOA5M3L1juZZ",
+    key: "rzp_live_Sa7HKNvKWrLneT",
     amount: price * 100,
     currency: "INR",
     name: "ImageAI",
