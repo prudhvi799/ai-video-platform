@@ -3,7 +3,6 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { createClient } = require("@supabase/supabase-js");
-const { fal } = require("@fal-ai/client");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 
@@ -12,11 +11,6 @@ const supabase = createClient(
   "https://iryznnsgpkcyembmpgaw.supabase.co",
   "sb_secret_uGxm27tzRyoJl1ev4JY7Ew_hdMuwefp"
 );
-
-// ===== FAL AI =====
-fal.config({
-  credentials: "fe8e6d26-486c-49ff-b816-e46c0708cf0c:301e22416aaa23f4f048726c3dde5346"
-});
 
 // ===== RAZORPAY =====
 const razorpay = new Razorpay({
@@ -30,12 +24,9 @@ app.use(cors());
 
 const SECRET_KEY = "videoai_secret_123";
 
-
-// ===== TEST ROUTE =====
 app.get("/", function(req, res) {
-  res.send("VideoAI Backend is running!");
+  res.send("ImageAI Backend is running!");
 });
-
 
 // ===== SIGNUP =====
 app.post("/signup", async function(req, res) {
@@ -64,7 +55,7 @@ app.post("/signup", async function(req, res) {
       email: email,
       password: hashedPassword,
       plan: "free",
-      credits: 0
+      credits: 3
     }])
     .select()
     .single();
@@ -79,10 +70,9 @@ app.post("/signup", async function(req, res) {
     success: true,
     message: "Account created!",
     token: token,
-    user: { name, email, plan: "free", credits: 0 }
+    user: { name, email, plan: "free", credits: 3 }
   });
 });
-
 
 // ===== LOGIN =====
 app.post("/login", async function(req, res) {
@@ -122,8 +112,7 @@ app.post("/login", async function(req, res) {
   });
 });
 
-
-// ===== GENERATE VIDEO =====
+// ===== GENERATE IMAGE =====
 app.post("/generate", async function(req, res) {
   const { prompt, token } = req.body;
 
@@ -148,48 +137,37 @@ app.post("/generate", async function(req, res) {
     return res.json({ success: false, message: "User not found" });
   }
 
-  if (user.credits <= 0) {
+  // Check credits for free plan
+  if (user.plan === "free" && user.credits <= 0) {
     return res.json({
       success: false,
-      message: "No videos remaining! Please buy a credit pack."
+      message: "Free images used! Please subscribe for ₹9/month for unlimited images."
     });
   }
 
-  try {
-    console.log("Generating video for:", prompt);
+  // Generate image using Pollinations AI (free!)
+  const encodedPrompt = encodeURIComponent(prompt);
+  const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true`;
 
-    const result = await fal.subscribe("fal-ai/wan/v2.2/t2v", {
-      input: {
-        prompt: prompt,
-        num_frames: 81,
-        resolution: "720p",
-        aspect_ratio: "16:9"
-      }
-    });
-
+  // Deduct credit only for free plan
+  if (user.plan === "free") {
     await supabase
       .from("users")
       .update({ credits: user.credits - 1 })
       .eq("id", user.id);
-
-    res.json({
-      success: true,
-      videoUrl: result.data.video.url,
-      creditsLeft: user.credits - 1
-    });
-
-  } catch (error) {
-    console.error("Video generation error:", error);
-    res.json({ success: false, message: "Video generation failed. Try again." });
   }
-});
 
+  res.json({
+    success: true,
+    imageUrl: imageUrl,
+    creditsLeft: user.plan === "free" ? user.credits - 1 : 999
+  });
+});
 
 // ===== CREATE PAYMENT ORDER =====
 app.post("/create-order", async function(req, res) {
   const { amount, pack, token } = req.body;
 
-  // Verify user
   let userData;
   try {
     userData = jwt.verify(token, SECRET_KEY);
@@ -197,9 +175,8 @@ app.post("/create-order", async function(req, res) {
     return res.json({ success: false, message: "Invalid session. Please login again." });
   }
 
-  // Create Razorpay order
   const order = await razorpay.orders.create({
-    amount: amount * 100, // Razorpay needs paise (multiply by 100)
+    amount: amount * 100,
     currency: "INR",
     receipt: "order_" + Date.now()
   });
@@ -212,12 +189,10 @@ app.post("/create-order", async function(req, res) {
   });
 });
 
-
 // ===== VERIFY PAYMENT =====
 app.post("/verify-payment", async function(req, res) {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, pack, token } = req.body;
 
-  // Verify user
   let userData;
   try {
     userData = jwt.verify(token, SECRET_KEY);
@@ -225,7 +200,6 @@ app.post("/verify-payment", async function(req, res) {
     return res.json({ success: false, message: "Invalid session." });
   }
 
-  // Verify payment signature
   const body = razorpay_order_id + "|" + razorpay_payment_id;
   const expectedSignature = crypto
     .createHmac("sha256", "lHRlL79Ejt8CxfmTYGZRfG3M")
@@ -236,38 +210,20 @@ app.post("/verify-payment", async function(req, res) {
     return res.json({ success: false, message: "Payment verification failed!" });
   }
 
-  // Add credits based on pack
-  const packCredits = {
-    starter: 5,
-    popular: 15,
-    pro: 35
-  };
-
-  const creditsToAdd = packCredits[pack] || 0;
-
-  // Get current user credits
-  const { data: user } = await supabase
-    .from("users")
-    .select("credits")
-    .eq("id", userData.userId)
-    .single();
-
-  // Update credits
-  const newCredits = user.credits + creditsToAdd;
+  // Upgrade user to pro plan with unlimited images
   await supabase
     .from("users")
-    .update({ credits: newCredits })
+    .update({ plan: "pro", credits: 999 })
     .eq("id", userData.userId);
 
   res.json({
     success: true,
-    message: "Payment successful! Credits added.",
-    newCredits: newCredits
+    message: "Payment successful! Unlimited images activated!",
+    newCredits: 999,
+    plan: "pro"
   });
 });
 
-
-// ===== START SERVER =====
 const PORT = 3000;
 app.listen(PORT, function() {
   console.log("Server is running on http://localhost:3000");

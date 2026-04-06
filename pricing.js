@@ -5,7 +5,7 @@ if (!user || !token) {
   window.location.href = "login.html";
 }
 
-document.getElementById("userCredits").textContent = user.credits + " videos remaining";
+document.getElementById("userCredits").textContent = user.plan === "pro" ? "Unlimited" : user.credits + " images remaining";
 
 document.querySelector(".logout-btn").addEventListener("click", function() {
   localStorage.removeItem("token");
@@ -13,19 +13,11 @@ document.querySelector(".logout-btn").addEventListener("click", function() {
   window.location.href = "index.html";
 });
 
-
-// ===== BUY PACK FUNCTION =====
-async function buyPack(packName, price, videos) {
-
-  // Step 1 — Create order on backend
+async function buyPack(packName, price) {
   const response = await fetch("https://videoai-backend-j5k9.onrender.com/create-order", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      amount: price,
-      pack: packName,
-      token: token
-    })
+    body: JSON.stringify({ amount: price, pack: packName, token: token })
   });
 
   const order = await response.json();
@@ -35,17 +27,14 @@ async function buyPack(packName, price, videos) {
     return;
   }
 
-  // Step 2 — Open Razorpay payment popup
   const options = {
     key: "rzp_test_SYcOA5M3L1juZZ",
     amount: price * 100,
     currency: "INR",
-    name: "VideoAI",
-    description: packName + " Pack - " + videos + " videos",
+    name: "ImageAI",
+    description: "Unlimited Images — ₹9/month",
     order_id: order.orderId,
     handler: async function(response) {
-
-      // Step 3 — Verify payment on backend
       const verifyResponse = await fetch("https://videoai-backend-j5k9.onrender.com/verify-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -62,21 +51,16 @@ async function buyPack(packName, price, videos) {
 
       if (verifyData.success) {
         user.credits = verifyData.newCredits;
+        user.plan = "pro";
         localStorage.setItem("user", JSON.stringify(user));
-        alert("Payment successful! " + videos + " videos added to your account!");
+        alert("Payment successful! Unlimited images activated!");
         window.location.href = "dashboard.html";
       } else {
         alert("Payment verification failed. Contact support.");
       }
-
     },
-    prefill: {
-      name: user.name,
-      email: user.email
-    },
-    theme: {
-      color: "#a855f7"
-    }
+    prefill: { name: user.name, email: user.email },
+    theme: { color: "#a855f7" }
   };
 
   const rzp = new Razorpay(options);

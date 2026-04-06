@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <title>Dashboard — VideoAI</title>
+    <title>Dashboard — ImageAI</title>
     <link rel="stylesheet" href="dashboard.css">
   </head>
-
   <body>
-
     <nav>
-      <h2>VideoAI</h2>
+      <h2>ImageAI</h2>
       <div class="nav-right">
         <span>Welcome, Creator!</span>
         <button class="logout-btn">Logout</button>
@@ -17,68 +14,51 @@
     </nav>
 
     <div class="dashboard-container">
-
       <div class="prompt-section">
-        <h2>Generate Your Video</h2>
-        <p>Describe what you want to see in your video</p>
+        <h2>Generate AI Image</h2>
+        <p>Describe what you want to see in your image</p>
 
         <textarea
           id="promptInput"
-          placeholder="Example: A sunset over mountains with birds flying, cinematic slow motion..."
+          placeholder="Example: A sunset over mountains with birds flying, photorealistic..."
         ></textarea>
 
-        <div class="options-row">
-          <select id="duration">
-            <option value="5">5 seconds</option>
-            <option value="10">10 seconds</option>
-          </select>
-          <select id="quality">
-            <option value="720">720p</option>
-            <option value="1080">1080p</option>
-          </select>
-        </div>
-
-        <button id="generateBtn">⚡ Generate Video</button>
+        <button id="generateBtn">⚡ Generate Image</button>
 
         <div class="credits-info">
-          <p>Videos remaining: <span id="credits">0</span></p>
-          <button id="buyCreditsBtn">🛒 Buy More Videos</button>
+          <p>Images remaining: <span id="credits">0</span></p>
+          <button id="buyCreditsBtn">⭐ Upgrade to Unlimited — ₹9/month</button>
         </div>
       </div>
 
       <div class="output-section">
-        <h2>Your Video</h2>
-        <div class="video-box" id="videoBox">
+        <h2>Your Image</h2>
+        <div class="video-box" id="imageBox">
           <div class="empty-state" id="emptyState">
-            <p>🎬</p>
-            <p>Your generated video will appear here</p>
+            <p>🎨</p>
+            <p>Your generated image will appear here</p>
             <p>Type a prompt and click Generate</p>
           </div>
           <div class="loading-state" id="loadingState">
             <div class="spinner"></div>
-            <p>Generating your video...</p>
-            <p>This may take 30-60 seconds</p>
+            <p>Generating your image...</p>
+            <p>This may take 5-10 seconds</p>
           </div>
           <div class="result-state" id="resultState">
-            <video id="videoPlayer" controls>
-              <source src="" type="video/mp4">
-            </video>
-            <button class="download-btn">⬇ Download Video</button>
+            <img id="imageResult" src="" style="width:100%; border-radius:8px; margin-bottom:16px;">
+            <button class="download-btn" id="downloadBtn">⬇ Download Image</button>
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="history-section">
-      <h2>Your Recent Videos</h2>
+      <h2>Your Recent Images</h2>
       <div class="history-grid" id="historyGrid">
-        <p style="color:#555">No videos yet. Generate your first video!</p>
+        <p style="color:#555">No images yet. Generate your first image!</p>
       </div>
     </div>
 
     <script src="dashboard.js"></script>
-
   </body>
-
 </html>
