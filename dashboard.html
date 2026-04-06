@@ -19,7 +19,7 @@
         <!-- TABS -->
         <div class="tabs">
           <button class="tab-btn active" id="imageTab" onclick="switchTab('image')">🎨 Generate Image</button>
-          <button class="tab-btn" id="videoTab" onclick="switchTab('video')">🎬 Generate Video <span class="soon-badge">Soon</span></button>
+          <button class="tab-btn" id="videoTab" onclick="switchTab('video')">🎬 Generate Video</button>
         </div>
 
         <!-- IMAGE SECTION -->
@@ -40,21 +40,32 @@
           </div>
         </div>
 
-        <!-- COMING SOON SECTION (hidden by default) -->
+        <!-- VIDEO SECTION -->
         <div id="videoSection" style="display:none;">
-          <div class="coming-soon-box">
-            <p class="coming-soon-icon">🎬</p>
-            <h2>AI Video Generation</h2>
-            <p class="coming-soon-date">Coming — May 2026</p>
-            <p class="coming-soon-desc">Generate stunning AI videos from just a text prompt! High quality 720p videos at the most affordable price in India.</p>
-            <div class="coming-soon-features">
-              <div class="cs-feature">⚡ Fast generation</div>
-              <div class="cs-feature">🎯 720p quality</div>
-              <div class="cs-feature">💰 Cheapest in India</div>
-              <div class="cs-feature">📱 Download instantly</div>
-            </div>
-            <p class="coming-soon-notify">🔔 Stay subscribed to get early access!</p>
+          <h2>Generate AI Video</h2>
+          <p style="color:#aaa; margin-bottom:20px;">Describe what you want to see in your video</p>
+
+          <textarea
+            id="videoPromptInput"
+            placeholder="Example: A sunset over mountains with birds flying, cinematic slow motion..."
+          ></textarea>
+
+          <!-- FREE USER LOCK -->
+          <div id="videoLockBox" style="display:none; margin-top:20px; background:#1a1a1a; border:1px solid #a855f7; border-radius:12px; padding:20px; text-align:center;">
+            <p style="font-size:28px; margin-bottom:10px;">🔒</p>
+            <p style="color:#fff; font-weight:bold; margin-bottom:8px;">Video Generation is for Subscribers!</p>
+            <p style="color:#aaa; font-size:14px; margin-bottom:16px;">Subscribe for just ₹9/month to unlock unlimited images AND videos!</p>
+            <button onclick="window.location.href='pricing.html'" style="background:#a855f7; color:white; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-size:15px; width:100%;">⭐ Subscribe ₹9/month</button>
           </div>
+
+          <!-- PRO USER GENERATE BUTTON -->
+          <div id="videoGenerateBox">
+            <button id="generateVideoBtn">⚡ Generate Video</button>
+            <div class="credits-info">
+              <p style="color:#aaa; font-size:13px; margin-top:10px;">⏱ Video takes 1-3 minutes to generate</p>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -81,14 +92,22 @@
             <button class="download-btn" id="downloadImageBtn">⬇ Download Image</button>
           </div>
 
+          <!-- VIDEO RESULT -->
+          <div class="result-state" id="videoResult" style="display:none;">
+            <video id="videoOutput" controls style="width:100%; border-radius:8px; margin-bottom:16px;">
+              <source src="" type="video/mp4">
+            </video>
+            <button class="download-btn" id="downloadVideoBtn">⬇ Download Video</button>
+          </div>
+
         </div>
       </div>
     </div>
 
     <div class="history-section">
-      <h2>Your Recent Images</h2>
+      <h2 id="historyTitle">Your Recent Images</h2>
       <div class="history-grid" id="historyGrid">
-        <p style="color:#555">No images yet. Generate your first one!</p>
+        <p style="color:#555">No generations yet. Create your first one!</p>
       </div>
     </div>
 

@@ -18,6 +18,9 @@ const razorpay = new Razorpay({
   key_secret: "Nui6gDAln9FN6xT4Gl26yYgT"
 });
 
+// ===== POLLINATIONS API KEY =====
+const POLLINATIONS_KEY = "sk_DPzU5LmL4By8cDs5pFJGrnTH0rxC1DOu";
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -25,7 +28,7 @@ app.use(cors());
 const SECRET_KEY = "videoai_secret_123";
 
 app.get("/", function(req, res) {
-  res.send("ImageAI Backend is running!");
+  res.send("VideoAI Backend is running!");
 });
 
 // ===== SIGNUP =====
@@ -140,12 +143,12 @@ app.post("/generate", async function(req, res) {
   if (user.plan === "free" && user.credits <= 0) {
     return res.json({
       success: false,
-      message: "Free images used! Please subscribe for ₹9/month for unlimited images."
+      message: "Free images used! Please subscribe for ₹9/month for unlimited images and videos."
     });
   }
 
   const encodedPrompt = encodeURIComponent(prompt);
-  const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true`;
+  const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1024&height=1024&nologo=true&key=${POLLINATIONS_KEY}`;
 
   if (user.plan === "free") {
     await supabase
@@ -159,6 +162,79 @@ app.post("/generate", async function(req, res) {
     imageUrl: imageUrl,
     creditsLeft: user.plan === "free" ? user.credits - 1 : 999
   });
+});
+
+// ===== GENERATE VIDEO =====
+app.post("/generate-video", async function(req, res) {
+  const { prompt, token } = req.body;
+
+  if (!prompt || !token) {
+    return res.json({ success: false, message: "Prompt and token required" });
+  }
+
+  let userData;
+  try {
+    userData = jwt.verify(token, SECRET_KEY);
+  } catch (e) {
+    return res.json({ success: false, message: "Invalid session. Please login again." });
+  }
+
+  const { data: user } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", userData.userId)
+    .single();
+
+  if (!user) {
+    return res.json({ success: false, message: "User not found" });
+  }
+
+  // Only pro users can generate videos
+  if (user.plan === "free") {
+    return res.json({
+      success: false,
+      message: "Video generation is for subscribers only! Please subscribe for ₹9/month."
+    });
+  }
+
+  try {
+    // Call Pollinations LTX-2.3 video API
+    const response = await fetch("https://gen.pollinations.ai/video", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${POLLINATIONS_KEY}`
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        model: "ltx-2",
+        width: 704,
+        height: 480,
+        num_frames: 97
+      })
+    });
+
+    const data = await response.json();
+
+    if (data && data.url) {
+      res.json({
+        success: true,
+        videoUrl: data.url
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "Video generation failed. Please try again!"
+      });
+    }
+
+  } catch (error) {
+    console.error("Video generation error:", error);
+    res.json({
+      success: false,
+      message: "Video generation failed. Please try again!"
+    });
+  }
 });
 
 // ===== CREATE PAYMENT ORDER =====
@@ -214,7 +290,7 @@ app.post("/verify-payment", async function(req, res) {
 
   res.json({
     success: true,
-    message: "Payment successful! Unlimited images activated!",
+    message: "Payment successful! Unlimited images and videos activated!",
     newCredits: 999,
     plan: "pro"
   });
