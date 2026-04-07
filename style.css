@@ -95,6 +95,7 @@ nav button:hover {
   display: flex;
   justify-content: center;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
 .feature-card {
@@ -102,7 +103,7 @@ nav button:hover {
   border: 1px solid #333;
   border-radius: 12px;
   padding: 40px 30px;
-  width: 280px;
+  width: 260px;
 }
 
 .feature-card h3 {
@@ -138,30 +139,39 @@ nav button:hover {
 .pricing-grid {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .pricing-card {
   background-color: #1a1a1a;
   border: 1px solid #333;
-  border-radius: 12px;
-  padding: 40px 30px;
-  width: 280px;
+  border-radius: 16px;
+  padding: 36px 24px;
+  width: 240px;
   position: relative;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.pricing-card:hover {
+  border-color: #a855f7;
 }
 
 .pricing-card.pro {
   border-color: #a855f7;
+  transform: scale(1.05);
 }
 
 .pricing-card h3 {
-  font-size: 22px;
+  font-size: 20px;
   margin-bottom: 10px;
   color: #ffffff;
 }
 
 .price {
-  font-size: 42px;
+  font-size: 40px;
   font-weight: bold;
   color: #a855f7;
   margin: 16px 0;
@@ -179,7 +189,9 @@ nav button:hover {
 
 .pricing-card p {
   color: #aaaaaa;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  text-align: left;
 }
 
 .pricing-card button {
@@ -190,12 +202,46 @@ nav button:hover {
   padding: 12px 30px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   width: 100%;
+  font-weight: bold;
 }
 
 .pricing-card button:hover {
   background-color: #9333ea;
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  text-align: center;
+  padding: 80px 60px;
+  background-color: #111111;
+}
+
+.cta-section h2 {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+
+.cta-section p {
+  color: #aaaaaa;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.cta-section button {
+  background: #a855f7;
+  color: white;
+  border: none;
+  padding: 18px 48px;
+  border-radius: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cta-section button:hover {
+  background: #9333ea;
 }
 
 /* ===== FOOTER ===== */
