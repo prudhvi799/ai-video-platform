@@ -9,9 +9,7 @@ document.querySelector(".nav-right span").textContent = "Welcome, " + user.name 
 
 // Show correct credits based on plan
 const creditsEl = document.getElementById("credits");
-if (user.plan === "video_pro") {
-  creditsEl.textContent = "Unlimited";
-} else if (user.plan === "image_pro") {
+if (user.plan === "video_pro" || user.plan === "image_pro") {
   creditsEl.textContent = "Unlimited";
 } else {
   creditsEl.textContent = user.credits;
@@ -52,6 +50,7 @@ function switchTab(tab) {
     document.getElementById("outputTitle").textContent = "Your Image";
     document.getElementById("historyTitle").textContent = "Your Recent Images";
     document.getElementById("emptyIcon").textContent = "🎨";
+
   } else {
     document.getElementById("imageSection").style.display = "none";
     document.getElementById("videoSection").style.display = "block";
@@ -59,12 +58,35 @@ function switchTab(tab) {
     document.getElementById("historyTitle").textContent = "Your Recent Videos";
     document.getElementById("emptyIcon").textContent = "🎬";
 
+    // Show correct box based on plan
     if (user.plan === "video_pro") {
+      // Unlimited videos
       document.getElementById("videoLockBox").style.display = "none";
+      document.getElementById("freeVideoCredits").style.display = "none";
       document.getElementById("videoGenerateBox").style.display = "block";
-    } else {
+
+    } else if (user.plan === "image_pro") {
+      // Image plan — no videos, show lock
       document.getElementById("videoLockBox").style.display = "block";
+      document.getElementById("freeVideoCredits").style.display = "none";
       document.getElementById("videoGenerateBox").style.display = "none";
+
+    } else {
+      // Free user — show video credits remaining
+      const videoCredits = user.video_credits !== undefined ? user.video_credits : 4;
+
+      if (videoCredits > 0) {
+        // Has free videos left
+        document.getElementById("videoLockBox").style.display = "none";
+        document.getElementById("freeVideoCredits").style.display = "block";
+        document.getElementById("videoCredits").textContent = videoCredits;
+        document.getElementById("videoGenerateBox").style.display = "none";
+      } else {
+        // Free videos used up — show lock
+        document.getElementById("videoLockBox").style.display = "block";
+        document.getElementById("freeVideoCredits").style.display = "none";
+        document.getElementById("videoGenerateBox").style.display = "none";
+      }
     }
   }
 }
@@ -85,7 +107,6 @@ generateBtn.addEventListener("click", async function() {
   }
 
   generateBtn.disabled = true;
-  generateBtn.textContent = "Generating...";
   emptyState.style.display = "none";
   imageResult.style.display = "none";
   videoResult.style.display = "none";
@@ -96,11 +117,7 @@ generateBtn.addEventListener("click", async function() {
     const response = await fetch("https://videoai-backend-j5k9.onrender.com/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        prompt, 
-        token,
-        image: attachedImageBase64   // ✅ ADDED HERE
-      })
+      body: JSON.stringify({ prompt, token, image: attachedImageBase64 })
     });
 
     const data = await response.json();
@@ -138,7 +155,6 @@ generateBtn.addEventListener("click", async function() {
   }
 
   generateBtn.disabled = false;
-  generateBtn.textContent = "⚡ Generate Image";
 });
 
 // ===== GENERATE VIDEO =====
@@ -151,12 +167,11 @@ generateVideoBtn.addEventListener("click", async function() {
   }
 
   generateVideoBtn.disabled = true;
-  generateVideoBtn.textContent = "Generating... (1-3 mins)";
   emptyState.style.display = "none";
   imageResult.style.display = "none";
   videoResult.style.display = "none";
   loadingState.style.display = "block";
-  document.getElementById("loadingText").textContent = "Generating your video...";
+  document.getElementById("loadingText").textContent = "Generating your video... this takes 1-3 minutes!";
 
   try {
     const response = await fetch("https://videoai-backend-j5k9.onrender.com/generate-video", {
@@ -183,12 +198,33 @@ generateVideoBtn.addEventListener("click", async function() {
         a.click();
       };
 
+      // Update free video credits
+      if (user.plan === "free" && data.videoCreditsLeft !== undefined) {
+        user.video_credits = data.videoCreditsLeft;
+        localStorage.setItem("user", JSON.stringify(user));
+        document.getElementById("videoCredits").textContent = data.videoCreditsLeft;
+
+        // If no more free videos, show lock box
+        if (data.videoCreditsLeft <= 0) {
+          document.getElementById("freeVideoCredits").style.display = "none";
+          document.getElementById("videoLockBox").style.display = "block";
+        }
+      }
+
       addToHistory(prompt, null, "video");
 
     } else {
       loadingState.style.display = "none";
       emptyState.style.display = "block";
-      alert(data.message);
+
+      // If upgrade required, redirect to pricing
+      if (data.upgradeRequired) {
+        if (confirm(data.message + "\n\nGo to pricing page?")) {
+          window.location.href = "pricing.html";
+        }
+      } else {
+        alert(data.message);
+      }
     }
 
   } catch (error) {
@@ -198,7 +234,6 @@ generateVideoBtn.addEventListener("click", async function() {
   }
 
   generateVideoBtn.disabled = false;
-  generateVideoBtn.textContent = "⚡ Generate Video";
 });
 
 // ===== HISTORY =====
@@ -230,28 +265,23 @@ document.querySelector(".logout-btn").addEventListener("click", function() {
   window.location.href = "index.html";
 });
 
-
-// ===== FILE ATTACH (ADDED AT BOTTOM) =====
+// ===== FILE ATTACH =====
 let attachedImageBase64 = null;
 
 function handleFileAttach(event) {
   const file = event.target.files[0];
   if (!file) return;
-
   const reader = new FileReader();
   reader.onload = function(e) {
     attachedImageBase64 = e.target.result;
-
     document.getElementById("attachedImagePreview").src = e.target.result;
     document.getElementById("imagePreviewBox").style.display = "block";
   };
-
   reader.readAsDataURL(file);
 }
 
 function removeAttachedImage() {
   attachedImageBase64 = null;
-
   document.getElementById("attachedImagePreview").src = "";
   document.getElementById("imagePreviewBox").style.display = "none";
   document.getElementById("fileInput").value = "";

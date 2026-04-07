@@ -45,7 +45,14 @@ app.post("/signup", async function(req, res) {
   const hashedPassword = await bcrypt.hash(password, 10);
   const { data, error } = await supabase
     .from("users")
-    .insert([{ name, email, password: hashedPassword, plan: "free", credits: 3 }])
+    .insert([{
+      name,
+      email,
+      password: hashedPassword,
+      plan: "free",
+      credits: 3,
+      video_credits: 4
+    }])
     .select().single();
   if (error) {
     return res.json({ success: false, message: "Error creating account" });
@@ -55,7 +62,13 @@ app.post("/signup", async function(req, res) {
     success: true,
     message: "Account created!",
     token,
-    user: { name, email, plan: "free", credits: 3 }
+    user: {
+      name,
+      email,
+      plan: "free",
+      credits: 3,
+      video_credits: 4
+    }
   });
 });
 
@@ -79,7 +92,13 @@ app.post("/login", async function(req, res) {
     success: true,
     message: "Login successful!",
     token,
-    user: { name: user.name, email: user.email, plan: user.plan, credits: user.credits }
+    user: {
+      name: user.name,
+      email: user.email,
+      plan: user.plan,
+      credits: user.credits,
+      video_credits: user.video_credits || 0
+    }
   });
 });
 
@@ -136,38 +155,48 @@ app.post("/generate-video", async function(req, res) {
     return res.json({ success: false, message: "User not found" });
   }
 
-  // Only video_pro users can generate videos
-  if (user.plan !== "video_pro") {
+  // Check video access
+  if (user.plan === "free") {
+    // Free user — check video_credits
+    if (!user.video_credits || user.video_credits <= 0) {
+      return res.json({
+        success: false,
+        message: "Free videos used! Subscribe ₹69/month for unlimited videos.",
+        upgradeRequired: true
+      });
+    }
+  } else if (user.plan === "image_pro") {
+    // Image only plan — no videos
     return res.json({
       success: false,
-      message: "Video generation requires Video Plan! Subscribe for ₹69/month."
+      message: "Video generation requires Video Plan! Subscribe ₹69/month for images + videos.",
+      upgradeRequired: true
     });
   }
+  // video_pro users — unlimited, no check needed
 
   try {
-    // Pollinations video API - correct endpoint
-    const response = await fetch("https://fal.run/fal-ai/ltx-video", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Key ${POLLINATIONS_KEY}`
-      },
-      body: JSON.stringify({
-        prompt: prompt,
-        num_inference_steps: 30,
-        guidance_scale: 3,
-        num_frames: 97,
-        resolution: "720p"
-      })
-    });
+    // Pollinations video API
+    const response = await fetch("https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt) + "?width=1024&height=576&nologo=true&key=" + POLLINATIONS_KEY);
 
-    const data = await response.json();
+    if (response.ok) {
+      const videoUrl = response.url;
 
-    if (data && data.video && data.video.url) {
-      res.json({ success: true, videoUrl: data.video.url });
+      // Deduct free video credit if free user
+      if (user.plan === "free") {
+        await supabase
+          .from("users")
+          .update({ video_credits: user.video_credits - 1 })
+          .eq("id", user.id);
+      }
+
+      res.json({
+        success: true,
+        videoUrl: videoUrl,
+        videoCreditsLeft: user.plan === "free" ? user.video_credits - 1 : 999
+      });
     } else {
-      // Fallback: use Pollinations image API to show something
-      res.json({ success: false, message: "Video generation failed. Please try again in a few minutes!" });
+      res.json({ success: false, message: "Video generation failed. Please try again!" });
     }
 
   } catch (error) {
@@ -210,27 +239,30 @@ app.post("/verify-payment", async function(req, res) {
     return res.json({ success: false, message: "Payment verification failed!" });
   }
 
-  // Set plan based on which pack they bought
   let newPlan = "image_pro";
   let newCredits = 999;
+  let newVideoCredits = 0;
 
   if (pack === "image") {
-    newPlan = "image_pro";   // images only
+    newPlan = "image_pro";
     newCredits = 999;
+    newVideoCredits = 0;
   } else if (pack === "video_monthly" || pack === "video_2months") {
-    newPlan = "video_pro";   // images + videos
+    newPlan = "video_pro";
     newCredits = 999;
+    newVideoCredits = 999;
   }
 
   await supabase
     .from("users")
-    .update({ plan: newPlan, credits: newCredits })
+    .update({ plan: newPlan, credits: newCredits, video_credits: newVideoCredits })
     .eq("id", userData.userId);
 
   res.json({
     success: true,
     message: "Payment successful!",
     newCredits,
+    newVideoCredits,
     plan: newPlan
   });
 });
