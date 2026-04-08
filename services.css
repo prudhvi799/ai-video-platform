@@ -333,6 +333,12 @@ nav button:hover {
 }
 
 /* ===== BUTTONS ===== */
+.plan-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .plan-card button,
 .btn-contact {
   display: block;
@@ -365,6 +371,28 @@ nav button:hover {
 .btn-popular:hover,
 .btn-popular-contact:hover {
   background: linear-gradient(135deg, #9333ea, #6d28d9) !important;
+}
+
+.btn-contact-outline {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  background-color: transparent;
+  color: #a855f7;
+  border: 1px solid rgba(168,85,247,0.4);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.btn-contact-outline:hover {
+  background-color: rgba(168,85,247,0.1);
+  border-color: #a855f7;
 }
 
 /* Best Value badge — gold color override */

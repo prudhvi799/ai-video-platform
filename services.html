@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Our Services & Plans — VideoAI</title>
-    <meta name="description" content="Explore all VideoAI services: AI Image Plans, YouTube Script Writing, Thumbnail Design, and Video Editing. Starting at just ₹39." />
+    <meta name="description" content="Choose a plan or service to grow your YouTube channel with VideoAI." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="services.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   </head>
   <body>
 
@@ -15,8 +16,7 @@
     <nav>
       <h2>VideoAI</h2>
       <div class="nav-right" id="navRight">
-        <!-- JS will populate based on auth state -->
-        <button onclick="window.location.href='login.html'">Login</button>
+        <button id="authButton" onclick="window.location.href='login.html'">Login</button>
         <button class="btn-signup" onclick="window.location.href='signup.html'">Sign Up</button>
       </div>
     </nav>
@@ -127,9 +127,14 @@
             <li>✅ Delivered in 24 hrs</li>
             <li>✅ Via WhatsApp/Instagram</li>
           </ul>
-          <a href="https://wa.me/919515261480?text=Hi%2C%20I%20want%20Starter%20Pack%20%E2%82%B939" target="_blank" class="btn-contact">
-            📞 Contact &amp; Pay ₹39
-          </a>
+          <div class="plan-actions">
+            <button class="btn-contact" onclick="payForService('Starter Pack', 39)">
+              ⚡ Pay ₹39 Securely
+            </button>
+            <a href="https://wa.me/919515261480?text=Hi%2C%20I%20want%20to%20discuss%20the%20Starter%20Pack" target="_blank" class="btn-contact-outline">
+              📞 Chat on WhatsApp
+            </a>
+          </div>
         </div>
 
         <!-- Growth Pack -->
@@ -147,9 +152,14 @@
             <li>✅ Via WhatsApp/Instagram</li>
             <li>✅ 1 free revision</li>
           </ul>
-          <a href="https://wa.me/919515261480?text=Hi%2C%20I%20want%20Growth%20Pack%20%E2%82%B969" target="_blank" class="btn-contact btn-popular-contact">
-            📞 Contact &amp; Pay ₹69
-          </a>
+          <div class="plan-actions">
+            <button class="btn-contact btn-popular-contact" onclick="payForService('Growth Pack', 69)">
+              ⚡ Pay ₹69 Securely
+            </button>
+            <a href="https://wa.me/919515261480?text=Hi%2C%20I%20want%20to%20discuss%20the%20Growth%20Pack" target="_blank" class="btn-contact-outline">
+              📞 Chat on WhatsApp
+            </a>
+          </div>
         </div>
 
         <!-- Thumbnail Design -->
@@ -164,9 +174,14 @@
             <li>✅ High resolution</li>
             <li>✅ 1 free revision</li>
           </ul>
-          <a href="https://wa.me/919515261480?text=Hi%2C%20I%20want%20Thumbnail%20Design%20%E2%82%B999" target="_blank" class="btn-contact">
-            📞 Contact &amp; Order
-          </a>
+          <div class="plan-actions">
+            <button class="btn-contact" onclick="payForService('Thumbnail Design', 99)">
+              ⚡ Pay ₹99 Securely
+            </button>
+            <a href="https://wa.me/919515261480?text=Hi%2C%20I%20want%20to%20discuss%20Thumbnail%20Design" target="_blank" class="btn-contact-outline">
+              📞 Chat on WhatsApp
+            </a>
+          </div>
         </div>
 
         <!-- Video Editing -->
@@ -196,15 +211,108 @@
     </footer>
 
     <script>
-      // Show correct nav based on auth
-      const user = JSON.parse(localStorage.getItem("user") || "null");
+      // Auth logic for the navbar
+      const user = JSON.parse(localStorage.getItem("user"));
       const token = localStorage.getItem("token");
+      
+      const authButton = document.getElementById("authButton");
+      
       if (user && token) {
-        document.getElementById("navRight").innerHTML = `
-          <span style="color:#a855f7;font-weight:600;">${user.credits === 999 ? "Unlimited" : user.credits + " images remaining"}</span>
-          <button onclick="window.location.href='dashboard.html'">Dashboard</button>
-          <button class="btn-logout" onclick="localStorage.clear();window.location.href='index.html'">Logout</button>
-        `;
+        authButton.textContent = "Dashboard";
+        authButton.onclick = () => window.location.href = "dashboard.html";
+        
+        // Add logout button
+        const navRight = document.querySelector(".nav-right");
+        const logoutBtn = document.createElement("button");
+        logoutBtn.textContent = "Logout";
+        logoutBtn.className = "btn-logout";
+        logoutBtn.style.marginLeft = "10px";
+        logoutBtn.onclick = () => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          window.location.reload();
+        };
+        navRight.appendChild(logoutBtn);
+
+        // Add plan badge
+        const badge = document.createElement("span");
+        badge.style.color = "#a855f7";
+        badge.style.fontSize = "14px";
+        badge.style.fontWeight = "600";
+        badge.style.marginRight = "10px";
+        badge.textContent = user.plan.includes("pro") ? "Unlimited" : user.credits + " images";
+        navRight.insertBefore(badge, authButton);
+      }
+
+      // Razorpay Payment Integration for Services
+      async function payForService(serviceName, amount) {
+        if (!user || !token) {
+          alert("Please Create an Account or Login first to pay.");
+          window.location.href = "signup.html";
+          return;
+        }
+
+        try {
+          // Create order without modifying the user's plan
+          const orderRes = await fetch("https://videoai-backend-j5k9.onrender.com/create-order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount, pack: "service", token })
+          });
+
+          const orderData = await orderRes.json();
+
+          if (!orderData.success) {
+            alert("Error creating order. Please try again!");
+            return;
+          }
+
+          const options = {
+            key: "rzp_live_Sa7HKNvKWrLneT",
+            amount: amount * 100,
+            currency: "INR",
+            name: "VideoAI",
+            description: serviceName + " — ₹" + amount,
+            order_id: orderData.orderId,
+            handler: async function(response) {
+              
+              // Verify the payment
+              const verifyRes = await fetch("https://videoai-backend-j5k9.onrender.com/verify-payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  pack: "service",
+                  token
+                })
+              });
+
+              const verifyData = await verifyRes.json();
+
+              if (verifyData.success) {
+                alert("✅ Payment successful! Please screenshot this message and message us on WhatsApp to begin your order.");
+                window.open("https://wa.me/919515261480?text=Hi!%20I%20just%20paid%20%E2%82%B9" + amount + "%20for%20" + encodeURIComponent(serviceName) + "%20(Payment%20ID:%20" + response.razorpay_payment_id + ")", "_blank");
+              } else {
+                alert("Payment verification failed. Please contact support on WhatsApp.");
+              }
+            },
+            prefill: {
+              name: user.name,
+              email: user.email
+            },
+            theme: {
+              color: "#a855f7"
+            }
+          };
+
+          const rzp = new Razorpay(options);
+          rzp.open();
+
+        } catch (error) {
+          alert("Something went wrong. Please check your connection and try again.");
+        }
       }
     </script>
   </body>

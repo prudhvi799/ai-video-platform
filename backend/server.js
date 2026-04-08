@@ -239,6 +239,13 @@ app.post("/verify-payment", async function(req, res) {
     return res.json({ success: false, message: "Payment verification failed!" });
   }
 
+  if (pack === "service") {
+    return res.json({
+      success: true,
+      message: "Payment for service verified successfully."
+    });
+  }
+
   let newPlan = "image_pro";
   let newCredits = 999;
   let newVideoCredits = 0;
