@@ -1,61 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Dashboard — ImageAI</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — VideoAI</title>
+    <meta name="description" content="Generate stunning AI images instantly. Your VideoAI dashboard." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
   </head>
   <body>
+
+    <!-- NAVIGATION -->
     <nav>
-      <h2>ImageAI</h2>
+      <h2 onclick="window.location.href='index.html'" style="cursor:pointer;">VideoAI</h2>
       <div class="nav-right">
-        <span>Welcome, Creator!</span>
-        <button class="logout-btn">Logout</button>
+        <span class="credits-badge">🖼️ <span id="creditsCount">0</span> images remaining</span>
+        <button class="btn-upgrade" onclick="window.location.href='pricing.html'" id="upgradeBtn">⭐ Upgrade</button>
+        <button class="btn-services" onclick="window.location.href='services.html'">🎬 Services</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
       </div>
     </nav>
 
-    <div class="dashboard-container">
-      <div class="prompt-section">
-        <h2>Generate AI Image</h2>
-        <p>Describe what you want to see in your image</p>
-
-        <textarea
-          id="promptInput"
-          placeholder="Example: A sunset over mountains with birds flying, photorealistic..."
-        ></textarea>
-
-        <button id="generateBtn">⚡ Generate Image</button>
-
-        <div class="credits-info">
-          <p>Images remaining: <span id="credits">0</span></p>
-          <button id="buyCreditsBtn">⭐ Upgrade to Unlimited — ₹9/month</button>
-        </div>
+    <!-- WELCOME BANNER -->
+    <div class="welcome-banner">
+      <div class="welcome-left">
+        <h2>👋 Welcome back, <span id="userName">Creator</span>!</h2>
+        <p>Ready to generate something amazing today?</p>
       </div>
-
-      <div class="output-section">
-        <h2>Your Image</h2>
-        <div class="video-box" id="imageBox">
-          <div class="empty-state" id="emptyState">
-            <p>🎨</p>
-            <p>Your generated image will appear here</p>
-            <p>Type a prompt and click Generate</p>
-          </div>
-          <div class="loading-state" id="loadingState">
-            <div class="spinner"></div>
-            <p>Generating your image...</p>
-            <p>This may take 5-10 seconds</p>
-          </div>
-          <div class="result-state" id="resultState">
-            <img id="imageResult" src="" style="width:100%; border-radius:8px; margin-bottom:16px;">
-            <button class="download-btn" id="downloadBtn">⬇ Download Image</button>
-          </div>
+      <div class="welcome-right">
+        <div class="stat-box">
+          <div class="stat-num" id="statCredits">0</div>
+          <div class="stat-label">Images Left</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="statPlan">Free</div>
+          <div class="stat-label">Current Plan</div>
         </div>
       </div>
     </div>
 
+    <!-- UPGRADE STRIP (shown only for free users) -->
+    <div class="upgrade-strip" id="upgradeStrip">
+      🚀 <strong>Upgrade to Unlimited</strong> — Get unlimited AI images for just ₹9/month!
+      <button onclick="window.location.href='pricing.html'">Upgrade Now →</button>
+    </div>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <div class="dashboard-container">
+
+      <!-- LEFT: GENERATE SECTION -->
+      <div class="generate-panel">
+        <div class="panel-header">
+          <h3>⚡ Generate AI Image</h3>
+          <p>Describe what you want to see</p>
+        </div>
+
+        <div class="input-area">
+          <label class="input-label">Your Prompt</label>
+          <textarea
+            id="promptInput"
+            placeholder="Example: A sunset over mountains with birds flying, photorealistic, 4K quality, dramatic lighting..."
+          ></textarea>
+        </div>
+
+        <button id="generateBtn">
+          <span id="btnText">⚡ Generate Image</span>
+        </button>
+
+        <div class="credits-info">
+          <p>Images remaining: <strong id="credits">0</strong></p>
+          <button id="buyCreditsBtn">⭐ Upgrade to Unlimited — ₹9/month</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: OUTPUT SECTION -->
+      <div class="output-panel">
+        <div class="panel-header">
+          <h3>🎨 Your Image</h3>
+          <p>Generated image appears here</p>
+        </div>
+
+        <div class="image-box" id="imageBox">
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon">🎨</div>
+            <p class="empty-title">Your image will appear here</p>
+            <p class="empty-sub">Type a prompt and click Generate</p>
+          </div>
+
+          <!-- Loading State -->
+          <div class="loading-state" id="loadingState">
+            <div class="spinner"></div>
+            <p class="loading-title">Generating your image...</p>
+            <p class="loading-sub">This may take 5–10 seconds</p>
+          </div>
+
+          <!-- Result State -->
+          <div class="result-state" id="resultState">
+            <img id="imageResult" src="" alt="Generated image" />
+            <button class="download-btn" id="downloadBtn">⬇ Download Image</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RECENT HISTORY -->
     <div class="history-section">
-      <h2>Your Recent Images</h2>
+      <div class="history-header">
+        <h3>🕐 Recent Images</h3>
+        <p>Your last generated images this session</p>
+      </div>
       <div class="history-grid" id="historyGrid">
-        <p style="color:#555">No images yet. Generate your first image!</p>
+        <div class="history-empty">
+          <p>No images yet — generate your first one above! ✨</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- YOUTUBER HELPER BANNER -->
+    <div class="helper-banner">
+      <div class="helper-content">
+        <span class="helper-icon">🚀</span>
+        <div>
+          <strong>Want to grow your YouTube channel?</strong>
+          <span>We write Telugu &amp; Hindi scripts, design thumbnails &amp; edit videos!</span>
+        </div>
+      </div>
+      <div class="helper-actions">
+        <a href="https://wa.me/919515261480" target="_blank" class="btn-wa">📞 WhatsApp Us</a>
+        <a href="services.html" class="btn-view-services">View Services →</a>
       </div>
     </div>
 
