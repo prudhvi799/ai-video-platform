@@ -1,0 +1,476 @@
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+body {
+  background-color: #0d0d0d;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 60px;
+  background-color: #111111;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+nav h2 {
+  color: #a855f7;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+nav h2:hover {
+  opacity: 0.85;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-right button,
+nav button {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #555;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.nav-right button:hover,
+nav button:hover {
+  border-color: #a855f7;
+  color: #a855f7;
+}
+
+.btn-signup {
+  background-color: #a855f7 !important;
+  border-color: #a855f7 !important;
+  color: white !important;
+}
+
+.btn-signup:hover {
+  background-color: #9333ea !important;
+}
+
+.btn-logout {
+  border-color: #e53e3e !important;
+  color: #e53e3e !important;
+}
+
+.btn-logout:hover {
+  background-color: #e53e3e !important;
+  color: white !important;
+}
+
+/* ===== YOUTUBER HERO BANNER ===== */
+.youtuber-hero {
+  background: linear-gradient(135deg, #2d1b69 0%, #1e0a4e 60%, #2d1b69 100%);
+  padding: 52px 60px;
+  text-align: center;
+  border-bottom: 1px solid #3d2080;
+}
+
+.youtuber-hero h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.youtuber-hero > p {
+  color: #c4b0f0;
+  font-size: 15px;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.highlight {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.btn-whatsapp {
+  background: linear-gradient(135deg, #e91e8c, #c2185b);
+  color: white;
+  padding: 13px 28px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.25s;
+  box-shadow: 0 4px 15px rgba(233, 30, 140, 0.3);
+}
+
+.btn-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(233, 30, 140, 0.45);
+}
+
+.divider {
+  color: #555;
+  font-size: 20px;
+}
+
+.btn-instagram {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  padding: 13px 28px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.25s;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.btn-instagram:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(245, 158, 11, 0.4);
+}
+
+/* ===== SERVICES TABS LABEL ===== */
+.services-tabs {
+  background-color: #111111;
+  padding: 16px 60px;
+  border-bottom: 1px solid #1e1e1e;
+}
+
+.tab-label {
+  color: #a855f7;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ===== SERVICE SECTIONS ===== */
+.service-section {
+  padding: 72px 60px;
+}
+
+.service-section:nth-child(odd) {
+  background-color: #0d0d0d;
+}
+
+.service-section:nth-child(even) {
+  background-color: #111111;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-header h2 {
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.section-header p {
+  color: #999999;
+  font-size: 15px;
+}
+
+/* ===== PLANS GRID ===== */
+.plans-grid {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* ===== PLAN CARDS ===== */
+.plan-card {
+  background-color: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 32px 26px 28px;
+  width: 240px;
+  text-align: center;
+  position: relative;
+  transition: border-color 0.25s, transform 0.25s;
+}
+
+.plan-card:hover {
+  border-color: #444;
+  transform: translateY(-4px);
+}
+
+.plan-card.popular {
+  border-color: #a855f7;
+  background-color: #1e1333;
+}
+
+.plan-card.popular:hover {
+  border-color: #c084fc;
+}
+
+.popular-badge {
+  display: inline-block;
+  background: #a855f7;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+  letter-spacing: 0.3px;
+}
+
+.plan-card.popular .popular-badge[style*="Best Value"],
+.plan-card.popular .popular-badge {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+}
+
+/* Gold badge for Best Value */
+.plan-card:not([class*="popular-badge-gold"]) .popular-badge:contains("Best Value") {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.plan-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.plan-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.plan-price {
+  font-size: 46px;
+  font-weight: 800;
+  color: #a855f7;
+  margin: 10px 0 6px;
+  line-height: 1;
+}
+
+.plan-per {
+  font-size: 16px;
+  font-weight: 600;
+  color: #a855f7;
+}
+
+.coming-price {
+  color: #a855f7;
+}
+
+.editing-price {
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.price-to {
+  font-size: 18px;
+  font-weight: 700;
+  color: #a855f7;
+}
+
+.plan-subtitle {
+  color: #888888;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+.plan-features {
+  list-style: none;
+  margin-bottom: 26px;
+  text-align: left;
+}
+
+.plan-features li {
+  color: #aaaaaa;
+  padding: 7px 0;
+  border-bottom: 1px solid #222;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.plan-features li:last-child {
+  border-bottom: none;
+}
+
+.price-note {
+  color: #f59e0b !important;
+  font-size: 12.5px !important;
+  font-style: italic;
+}
+
+/* ===== BUTTONS ===== */
+.plan-card button,
+.btn-contact {
+  display: block;
+  width: 100%;
+  padding: 13px 20px;
+  background-color: #a855f7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.plan-card button:hover,
+.btn-contact:hover {
+  background-color: #9333ea;
+  transform: translateY(-1px);
+}
+
+.btn-popular,
+.btn-popular-contact {
+  background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+}
+
+.btn-popular:hover,
+.btn-popular-contact:hover {
+  background: linear-gradient(135deg, #9333ea, #6d28d9) !important;
+}
+
+/* Best Value badge — gold color override */
+.plan-card .popular-badge:first-child {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+}
+
+/* For ⭐ Best Value badges, use gold */
+.scripts-section .plan-card.popular .popular-badge {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+/* ===== SECTION DIVIDER ===== */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #333, transparent);
+  margin: 0 60px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 30px;
+  background-color: #111111;
+  color: #666666;
+  border-top: 1px solid #222;
+  font-size: 14px;
+}
+
+footer a {
+  color: #a855f7;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* ===== COMING SOON CARD ===== */
+.coming-soon-card {
+  border-color: #333 !important;
+  opacity: 0.75;
+}
+
+.coming-soon-badge {
+  display: inline-block;
+  background-color: #2a2a2a;
+  color: #888888;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+  letter-spacing: 0.3px;
+  border: 1px solid #444;
+}
+
+.coming-soon-price {
+  font-size: 36px !important;
+  color: #555 !important;
+}
+
+.coming-soon-features li {
+  color: #555 !important;
+}
+
+.btn-coming-soon {
+  background-color: #2a2a2a !important;
+  color: #555 !important;
+  cursor: not-allowed !important;
+  border: 1px solid #333 !important;
+}
+
+.btn-coming-soon:hover {
+  background-color: #2a2a2a !important;
+  transform: none !important;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav {
+    padding: 16px 20px;
+  }
+
+  .youtuber-hero {
+    padding: 40px 20px;
+  }
+
+  .youtuber-hero h1 {
+    font-size: 22px;
+  }
+
+  .service-section {
+    padding: 52px 20px;
+  }
+
+  .section-header h2 {
+    font-size: 26px;
+  }
+
+  .plan-card {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .section-divider {
+    margin: 0 20px;
+  }
+}

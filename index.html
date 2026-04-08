@@ -1,37 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="j07vECHBr9L2nHTtFhMW8rnnH07xMeozCpDVr1G8hbc" />
-    <title>VideoAI — Generate AI Images & Videos Free</title>
+    <title>VideoAI — Generate Stunning AI Images & Videos Instantly</title>
+    <meta name="description" content="Generate stunning AI images and videos instantly. Free to start! Just type what you imagine — we turn it into a beautiful image or video." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <!-- NAVIGATION -->
     <nav>
       <h2>VideoAI</h2>
-      <div>
-        <a href="/pricing.html" style="color:#a855f7; margin-right:16px; text-decoration:none; font-weight:bold;">📝 Our Services</a>
+      <div class="nav-links">
+        <a href="services.html" class="nav-services-link">🎬 Our Services</a>
         <button id="loginBtn">Login</button>
         <button id="signupBtn">Sign Up</button>
       </div>
     </nav>
 
+    <!-- HERO SECTION -->
     <section class="hero">
-      <h1>Generate <span>Stunning AI Images & Videos</span> Instantly</h1>
+      <h1>Generate <span>Stunning AI Images &amp; Videos</span> Instantly</h1>
       <p>Just type what you imagine — we turn it into a beautiful image or video. Free to start!</p>
       <button id="startBtn">Start Generating Free</button>
     </section>
 
-    <!-- Services Banner -->
-    <section style="background:linear-gradient(135deg,#1e0a3c,#2d1b69); padding:40px 20px; text-align:center; border-top:1px solid #7c3aed; border-bottom:1px solid #7c3aed;">
-      <h2 style="font-size:26px; color:white; margin-bottom:10px;">🚀 Become a Professional YouTuber in Just 6 Months!</h2>
-      <p style="color:#c4b5fd; margin-bottom:20px;">We write Telugu & Hindi YouTube scripts for you! Starting at just ₹39</p>
-      <div style="display:flex; justify-content:center; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:16px;">
-        <a href="https://wa.me/919515261480" style="background:#7c3aed; color:white; padding:12px 24px; border-radius:30px; text-decoration:none; font-weight:bold;">📞 WhatsApp: +91 95152 61480</a>
-        <a href="https://instagram.com/helpfull110" style="background:linear-gradient(135deg,#f97316,#ec4899); color:white; padding:12px 24px; border-radius:30px; text-decoration:none; font-weight:bold;">📸 Instagram: @helpfull110</a>
+    <!-- YOUTUBER BANNER -->
+    <section class="youtuber-banner">
+      <h2>🚀 Become a Professional YouTuber in Just 6 Months!</h2>
+      <p>We write Telugu &amp; Hindi YouTube scripts for you! Starting at just ₹39</p>
+      <div class="banner-buttons">
+        <a href="https://wa.me/919515261480" target="_blank" class="btn-whatsapp">📞 WhatsApp: +91 95152 61480</a>
+        <a href="https://instagram.com/helpfull110" target="_blank" class="btn-instagram">📸 Instagram: @helpfull110</a>
       </div>
-      <a href="/pricing.html" style="color:#a855f7; font-size:16px; font-weight:bold;">👉 View All Services & Plans →</a>
+      <a href="services.html" class="view-all-link">🎬 View All Services &amp; Plans →</a>
     </section>
 
+    <!-- WHY CHOOSE VIDEOAI -->
     <section class="features">
       <h2>Why Choose VideoAI?</h2>
       <div class="features-grid">
@@ -54,84 +62,96 @@
       </div>
     </section>
 
+    <!-- PRICING SECTION -->
     <section class="pricing">
       <h2>Simple Pricing</h2>
       <p class="pricing-subtitle">Start free, upgrade anytime. No hidden charges!</p>
       <div class="pricing-grid">
 
+        <!-- Free Plan -->
         <div class="pricing-card">
-          <h3>🆓 Free</h3>
+          <div class="plan-icon">🆓</div>
+          <h3>Free</h3>
           <div class="price">₹0</div>
-          <p>✅ 3 AI images</p>
-          <p>✅ High quality</p>
-          <p>✅ No expiry</p>
-          <p>❌ No videos</p>
+          <ul class="plan-features">
+            <li>✅ 3 AI images</li>
+            <li>✅ High quality</li>
+            <li>✅ No expiry</li>
+            <li>❌ No videos</li>
+          </ul>
           <button onclick="window.location.href='signup.html'">Start Free</button>
         </div>
 
+        <!-- Images Plan -->
         <div class="pricing-card">
-          <h3>🎨 Images Plan</h3>
+          <div class="plan-icon">🎨</div>
+          <h3>Images Plan</h3>
           <div class="price">₹9/mo</div>
-          <p>✅ Unlimited images</p>
-          <p>✅ High quality</p>
-          <p>✅ Instant generation</p>
-          <p>❌ No videos</p>
+          <ul class="plan-features">
+            <li>✅ Unlimited images</li>
+            <li>✅ High quality</li>
+            <li>✅ Instant generation</li>
+            <li>❌ No videos</li>
+          </ul>
           <button onclick="window.location.href='signup.html'">Get Started</button>
         </div>
 
+        <!-- Images + Videos Plan -->
         <div class="pricing-card pro">
-          <div class="popular-badge">🔥 Most Popular</div>
-          <h3>🎬 Images + Videos</h3>
+          <div class="plan-icon">🎬</div>
+          <h3>Images + Videos</h3>
           <div class="price">₹69/mo</div>
-          <p>✅ Unlimited images</p>
-          <p>✅ Unlimited AI videos</p>
-          <p>✅ 720p video quality</p>
-          <p>✅ Priority support</p>
+          <ul class="plan-features">
+            <li>✅ Unlimited images</li>
+            <li>✅ Unlimited AI videos</li>
+            <li>✅ 720p video quality</li>
+            <li>✅ Priority support</li>
+          </ul>
           <button onclick="window.location.href='signup.html'">Get Started</button>
         </div>
 
-        <div class="pricing-card" style="border-color:#f59e0b;">
-          <div class="popular-badge" style="background:#f59e0b;">⭐ Best Deal</div>
-          <h3>🎬 2 Months Plan</h3>
-          <div class="price" style="color:#f59e0b;">₹99<span style="font-size:16px;">/2mo</span></div>
-          <p>✅ Unlimited images</p>
-          <p>✅ Unlimited AI videos</p>
-          <p>✅ 720p video quality</p>
-          <p>✅ Save ₹39!</p>
-          <button style="background:#f59e0b;" onclick="window.location.href='signup.html'">Get Best Deal</button>
+        <!-- 2 Months Plan -->
+        <div class="pricing-card deal">
+          <div class="plan-icon">🎬</div>
+          <h3>2 Months Plan</h3>
+          <div class="price">₹99<span class="price-period">/2mo</span></div>
+          <ul class="plan-features">
+            <li>✅ Unlimited images</li>
+            <li>✅ Unlimited AI videos</li>
+            <li>✅ 720p video quality</li>
+            <li>✅ Save ₹39!</li>
+          </ul>
+          <button class="btn-deal" onclick="window.location.href='signup.html'">Get Best Deal</button>
         </div>
 
       </div>
     </section>
 
-    <section class="features" style="margin-top:0;">
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
       <h2>How It Works</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <h3>1️⃣ Sign Up Free</h3>
-          <p>Create your account in 30 seconds. No credit card needed!</p>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Type Your Prompt</h3>
+          <p>Describe what you want to see in your image or video in plain English or Telugu/Hindi.</p>
         </div>
-        <div class="feature-card">
-          <h3>2️⃣ Type Your Prompt</h3>
-          <p>Describe what you want to see. Be as creative as you want!</p>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>AI Generates</h3>
+          <p>Our AI instantly creates a stunning image or video matching your description.</p>
         </div>
-        <div class="feature-card">
-          <h3>3️⃣ Download & Share</h3>
-          <p>Your AI image or video is ready! Download and share anywhere.</p>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Download &amp; Share</h3>
+          <p>Download your creation and share it anywhere. Use it for YouTube, Instagram &amp; more!</p>
         </div>
       </div>
     </section>
 
-    <section class="cta-section">
-      <h2 style="font-size:36px; margin-bottom:16px;">Ready to Create? 🚀</h2>
-      <p style="color:#aaa; margin-bottom:30px; font-size:18px;">Join thousands of creators using VideoAI!</p>
-      <button onclick="window.location.href='signup.html'" style="background:#a855f7; color:white; border:none; padding:18px 48px; border-radius:12px; font-size:20px; cursor:pointer; font-weight:bold;">
-        Start Creating Free →
-      </button>
-    </section>
-
+    <!-- FOOTER -->
     <footer>
-      <p>© 2026 VideoAI. All rights reserved. | Cheapest AI image & video generator in India 🇮🇳</p>
+      <p>© 2026 VideoAI. All rights reserved.</p>
     </footer>
 
     <script src="script.js"></script>
