@@ -69,9 +69,6 @@ generateBtn.addEventListener("click", async function () {
       imageResult.style.display = "block";
       document.getElementById("imageOutput").src = data.imageUrl;
 
-      const imageResult = document.getElementById("imageResult");
-      imageResult.src = data.imageUrl;
-
       // Download button
       document.getElementById("downloadBtn").onclick = function () {
         const a = document.createElement("a");
