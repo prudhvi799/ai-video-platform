@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Subscribe — VideoAI</title>
+    <title>Plans & Services — VideoAI</title>
     <link rel="stylesheet" href="pricing.css">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   </head>
   <body>
+
+    <!-- NAV -->
     <nav>
       <h2>VideoAI</h2>
       <div class="nav-right">
@@ -15,10 +17,26 @@
       </div>
     </nav>
 
+    <!-- MOTIVATIONAL BANNER -->
+    <div class="motivation-banner">
+      <div class="motivation-text">
+        <h2 class="animate-text">🚀 Become a Professional YouTuber in Just 6 Months!</h2>
+        <p class="animate-subtext">Consistency makes you successful. In today's tough life, AI is your biggest weapon to earn money. <span style="color:#a855f7;">Feel free to contact us — we are here to make you succeed!</span></p>
+        <div class="contact-bar">
+          <span>📞 Call / WhatsApp us:</span>
+          <a href="tel:+919999999999" class="phone-btn">+91 99999 99999</a>
+          <span style="color:#555;">|</span>
+          <a href="https://instagram.com/yourid" target="_blank" class="insta-btn">📸 Instagram: @yourid</a>
+        </div>
+      </div>
+    </div>
+
     <div class="pricing-container">
+
+      <!-- AI IMAGES SECTION -->
       <div class="pricing-header">
-        <h1>Choose Your Plan</h1>
-        <p>Start free, upgrade anytime. No hidden charges!</p>
+        <h1>🎨 AI Image Plans</h1>
+        <p>Generate stunning AI images instantly. Start free!</p>
       </div>
 
       <div class="plans-grid">
@@ -40,61 +58,156 @@
         </div>
 
         <!-- IMAGE PLAN -->
-        <div class="plan-card">
-          <h3>🎨 Images Plan</h3>
+        <div class="plan-card popular">
+          <div class="popular-badge">🔥 Most Popular</div>
+          <h3>🎨 Unlimited Images</h3>
           <div class="plan-price">₹9<span style="font-size:18px;">/mo</span></div>
           <div class="plan-videos">Unlimited Images</div>
           <ul class="plan-features">
             <li>✅ Unlimited AI images</li>
             <li>✅ High quality 1024px</li>
+            <li>✅ Instant generation</li>
             <li>✅ Download images</li>
-            <li>❌ No video generation</li>
+            <li>✅ Priority support</li>
           </ul>
           <button class="buy-btn" onclick="buyPack('image', 9)">
             Subscribe ₹9/month
           </button>
         </div>
 
-        <!-- VIDEO MONTHLY PLAN -->
-        <div class="plan-card popular">
-          <div class="popular-badge">🔥 Most Popular</div>
-          <h3>🎬 Images + Videos</h3>
-          <div class="plan-price">₹69<span style="font-size:18px;">/mo</span></div>
-          <div class="plan-videos">Unlimited Images & Videos</div>
+        <!-- VIDEO COMING SOON -->
+        <div class="plan-card coming-soon-card">
+          <div class="coming-soon-badge">🔜 Coming Soon</div>
+          <h3>🎬 AI Videos</h3>
+          <div class="plan-price" style="font-size:32px; color:#555;">Soon</div>
+          <div class="plan-videos">Unlimited Videos</div>
           <ul class="plan-features">
-            <li>✅ Unlimited AI images</li>
-            <li>✅ Unlimited AI videos</li>
-            <li>✅ High quality 720p video</li>
-            <li>✅ Download everything</li>
-            <li>✅ Priority support</li>
+            <li style="color:#444;">🎬 AI video generation</li>
+            <li style="color:#444;">🎯 720p quality</li>
+            <li style="color:#444;">⚡ Fast generation</li>
+            <li style="color:#444;">📱 Download videos</li>
           </ul>
-          <button class="buy-btn" onclick="buyPack('video_monthly', 69)">
-            Subscribe ₹69/month
-          </button>
-        </div>
-
-        <!-- VIDEO 2 MONTHS PLAN -->
-        <div class="plan-card" style="border-color:#f59e0b;">
-          <div class="popular-badge" style="background:#f59e0b;">⭐ Best Deal</div>
-          <h3>🎬 2 Months Plan</h3>
-          <div class="plan-price" style="color:#f59e0b;">₹99<span style="font-size:18px;">/2mo</span></div>
-          <div class="plan-videos">Save ₹39!</div>
-          <ul class="plan-features">
-            <li>✅ Unlimited AI images</li>
-            <li>✅ Unlimited AI videos</li>
-            <li>✅ High quality 720p video</li>
-            <li>✅ Download everything</li>
-            <li>✅ Priority support</li>
-            <li>✅ 2 months access</li>
-          </ul>
-          <button class="buy-btn" style="background:#f59e0b;" onclick="buyPack('video_2months', 99)">
-            Get 2 Months — ₹99
+          <button class="buy-btn" style="background:#222; color:#555; cursor:not-allowed;">
+            Coming Soon
           </button>
         </div>
 
       </div>
+
+      <!-- DIVIDER -->
+      <div class="section-divider">
+        <div class="divider-line"></div>
+        <span>Our Services</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- YOUTUBE SCRIPTS SECTION -->
+      <div class="pricing-header">
+        <h1>📝 YouTube Script Writing</h1>
+        <p>Professional Telugu & Hindi YouTube scripts written by experts. Grow your channel fast!</p>
+      </div>
+
+      <div class="plans-grid">
+
+        <!-- 2 SCRIPTS -->
+        <div class="plan-card">
+          <h3>📝 Starter Pack</h3>
+          <div class="plan-price">₹39</div>
+          <div class="plan-videos">2 Scripts</div>
+          <ul class="plan-features">
+            <li>✅ 2 YouTube scripts</li>
+            <li>✅ Telugu or Hindi</li>
+            <li>✅ Your chosen topic</li>
+            <li>✅ Delivered in 24 hrs</li>
+            <li>✅ Via WhatsApp/Instagram</li>
+          </ul>
+          <button class="buy-btn" onclick="contactForScripts(39, 2)">
+            📞 Contact & Pay ₹39
+          </button>
+        </div>
+
+        <!-- 4 SCRIPTS -->
+        <div class="plan-card popular">
+          <div class="popular-badge">⭐ Best Value</div>
+          <h3>📝 Growth Pack</h3>
+          <div class="plan-price">₹69</div>
+          <div class="plan-videos">4 Scripts</div>
+          <ul class="plan-features">
+            <li>✅ 4 YouTube scripts</li>
+            <li>✅ Telugu or Hindi</li>
+            <li>✅ Your chosen topics</li>
+            <li>✅ Delivered in 48 hrs</li>
+            <li>✅ Via WhatsApp/Instagram</li>
+            <li>✅ 1 free revision</li>
+          </ul>
+          <button class="buy-btn" onclick="contactForScripts(69, 4)">
+            📞 Contact & Pay ₹69
+          </button>
+        </div>
+
+        <!-- THUMBNAIL COMING SOON -->
+        <div class="plan-card coming-soon-card">
+          <div class="coming-soon-badge">🔜 Coming Soon</div>
+          <h3>🖼️ Thumbnail Design</h3>
+          <div class="plan-price">₹99</div>
+          <div class="plan-videos">Per Thumbnail</div>
+          <ul class="plan-features">
+            <li style="color:#444;">🎨 Professional design</li>
+            <li style="color:#444;">⚡ Delivered in 24hrs</li>
+            <li style="color:#444;">📱 High resolution</li>
+            <li style="color:#444;">✏️ 1 free revision</li>
+          </ul>
+          <button class="buy-btn" style="background:#222; color:#555; cursor:not-allowed;">
+            Coming Soon
+          </button>
+        </div>
+
+        <!-- VIDEO EDITING COMING SOON -->
+        <div class="plan-card coming-soon-card">
+          <div class="coming-soon-badge">🔜 Coming Soon</div>
+          <h3>🎬 Video Editing</h3>
+          <div class="plan-price" style="font-size:28px; color:#555;">Soon</div>
+          <div class="plan-videos">Per Video</div>
+          <ul class="plan-features">
+            <li style="color:#444;">✂️ Professional editing</li>
+            <li style="color:#444;">🎵 Music & effects</li>
+            <li style="color:#444;">📝 Subtitles</li>
+            <li style="color:#444;">⚡ Fast delivery</li>
+          </ul>
+          <button class="buy-btn" style="background:#222; color:#555; cursor:not-allowed;">
+            Coming Soon
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CONTACT POPUP -->
+    <div id="contactPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; align-items:center; justify-content:center;">
+      <div style="background:#111; border:1px solid #a855f7; border-radius:16px; padding:40px; max-width:400px; width:90%; text-align:center;">
+        <p style="font-size:36px; margin-bottom:16px;">📝</p>
+        <h2 style="margin-bottom:8px;" id="popupTitle">Get 2 Scripts for ₹39</h2>
+        <p style="color:#aaa; font-size:14px; margin-bottom:24px;">Contact us on WhatsApp or Instagram, pay and get your scripts in 24 hours!</p>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <a href="tel:+919999999999" style="background:#25D366; color:white; padding:14px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:15px;">
+            📞 Call: +91 99999 99999
+          </a>
+          <a href="https://wa.me/919999999999" target="_blank" style="background:#25D366; color:white; padding:14px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:15px;">
+            💬 WhatsApp Us
+          </a>
+          <a href="https://instagram.com/yourid" target="_blank" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color:white; padding:14px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:15px;">
+            📸 DM on Instagram: @yourid
+          </a>
+        </div>
+
+        <button onclick="document.getElementById('contactPopup').style.display='none'" style="margin-top:20px; background:transparent; color:#555; border:1px solid #333; padding:10px 24px; border-radius:8px; cursor:pointer; width:100%;">
+          Close
+        </button>
+      </div>
     </div>
 
     <script src="pricing.js"></script>
-  </body>
-</html>
+    <script>
+      function contactForScripts(amount, count) {
