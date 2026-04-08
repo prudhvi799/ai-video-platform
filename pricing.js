@@ -40,7 +40,7 @@ async function buyPack(pack, amount) {
 
     // Open Razorpay
     const options = {
-      key: "rzp_live_Sa7HKNvKWrLneT",
+      key: "rzp_live_Sb95TifTHWILez",
       amount: amount * 100,
       currency: "INR",
       name: "VideoAI",
