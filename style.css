@@ -9,6 +9,24 @@
 body {
   background-color: #0d0d0d;
   color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* ===== GLOWING ANIMATIONS ===== */
+@keyframes glow-pulse {
+  0% { box-shadow: 0 0 5px rgba(168, 85, 247, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); }
+  100% { box-shadow: 0 0 5px rgba(168, 85, 247, 0.2); }
+}
+
+.glow-box {
+  animation: glow-pulse 3s infinite ease-in-out;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ===== NAVIGATION ===== */
@@ -474,6 +492,102 @@ nav button:hover {
 }
 
 /* ===== FOOTER ===== */
+/* ===== AGENCY TRUST SECTION ===== */
+.agency-trust {
+  padding: 80px 60px;
+  background: radial-gradient(circle at center, #1a0a2e 0%, #0d0d0d 100%);
+  text-align: center;
+}
+
+.trust-badge {
+  display: inline-block;
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.agency-trust h2 {
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+
+.team-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.team-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px;
+  width: 320px;
+  transition: all 0.3s;
+}
+
+.team-card:hover {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.05);
+  transform: translateY(-5px);
+}
+
+.team-icon {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+/* ===== RECRUITMENT BANNER ===== */
+.recruit-banner {
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  padding: 40px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+  margin: 60px;
+  text-align: left;
+}
+
+.recruit-content h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.recruit-content p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+}
+
+.btn-recruit {
+  background: white !important;
+  color: #a855f7 !important;
+  padding: 14px 32px !important;
+}
+
+.btn-recruit:hover {
+  background: #f3f3f3 !important;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .recruit-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+    margin: 40px 20px;
+    padding: 30px 20px;
+  }
+}
+
 footer {
   text-align: center;
   padding: 30px;

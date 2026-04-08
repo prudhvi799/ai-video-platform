@@ -12,6 +12,23 @@ body {
   min-height: 100vh;
 }
 
+/* ===== GLOWING ANIMATIONS ===== */
+@keyframes glow-pulse {
+  0% { box-shadow: 0 0 5px rgba(168, 85, 247, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); }
+  100% { box-shadow: 0 0 5px rgba(168, 85, 247, 0.2); }
+}
+
+.glow-box {
+  animation: glow-pulse 3s infinite ease-in-out;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* ===== NAVIGATION ===== */
 nav {
   display: flex;
@@ -413,6 +430,50 @@ nav button:hover {
 }
 
 /* ===== FOOTER ===== */
+/* ===== RECRUITMENT BANNER ===== */
+.recruit-banner {
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  padding: 40px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+  margin: 60px;
+  text-align: left;
+}
+
+.recruit-content h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.recruit-content p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+}
+
+.btn-recruit {
+  background: white !important;
+  color: #a855f7 !important;
+  padding: 14px 32px !important;
+}
+
+.btn-recruit:hover {
+  background: #f3f3f3 !important;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .recruit-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+    margin: 40px 20px;
+    padding: 30px 20px;
+  }
+}
+
 footer {
   text-align: center;
   padding: 30px;
