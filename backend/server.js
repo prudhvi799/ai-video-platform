@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
@@ -8,24 +9,24 @@ const crypto = require("crypto");
 
 // ===== SUPABASE =====
 const supabase = createClient(
-  "https://iryznnsgpkcyembmpgaw.supabase.co",
-  "sb_secret_uGxm27tzRyoJl1ev4JY7Ew_hdMuwefp"
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
 );
 
 // ===== RAZORPAY =====
 const razorpay = new Razorpay({
-  key_id: "rzp_live_Sa7HKNvKWrLneT",
-  key_secret: "Nui6gDAln9FN6xT4Gl26yYgT"
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
 // ===== POLLINATIONS API KEY =====
-const POLLINATIONS_KEY = "sk_DPzU5LmL4By8cDs5pFJGrnTH0rxC1DOu";
+const POLLINATIONS_KEY = process.env.POLLINATIONS_KEY;
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const SECRET_KEY = "videoai_secret_123";
+const SECRET_KEY = process.env.JWT_SECRET || "fallback_secret_change_me";
 
 app.get("/", function(req, res) {
   res.send("VideoAI Backend is running!");
@@ -233,7 +234,7 @@ app.post("/verify-payment", async function(req, res) {
   }
   const body = razorpay_order_id + "|" + razorpay_payment_id;
   const expectedSignature = crypto
-    .createHmac("sha256", "Nui6gDAln9FN6xT4Gl26yYgT")
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
     .update(body).digest("hex");
   if (expectedSignature !== razorpay_signature) {
     return res.json({ success: false, message: "Payment verification failed!" });
@@ -274,7 +275,7 @@ app.post("/verify-payment", async function(req, res) {
   });
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
-  console.log("Server is running on http://localhost:3000");
+  console.log("Server is running on port " + PORT);
 });
