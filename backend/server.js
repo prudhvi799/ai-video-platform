@@ -46,13 +46,13 @@ app.post("/signup", async function(req, res) {
   const hashedPassword = await bcrypt.hash(password, 10);
   const { data, error } = await supabase
     .from("users")
-    .insert([{
+    .insert([{ 
       name,
       email,
       password: hashedPassword,
       plan: "free",
       credits: 3,
-      video_credits: 4
+      video_credits: 0
     }])
     .select().single();
   if (error) {
@@ -67,8 +67,7 @@ app.post("/signup", async function(req, res) {
       name,
       email,
       plan: "free",
-      credits: 3,
-      video_credits: 4
+      credits: 3
     }
   });
 });
@@ -97,8 +96,7 @@ app.post("/login", async function(req, res) {
       name: user.name,
       email: user.email,
       plan: user.plan,
-      credits: user.credits,
-      video_credits: user.video_credits || 0
+      credits: user.credits
     }
   });
 });
@@ -139,72 +137,9 @@ app.post("/generate", async function(req, res) {
 });
 
 // ===== GENERATE VIDEO =====
-app.post("/generate-video", async function(req, res) {
-  const { prompt, token } = req.body;
-  if (!prompt || !token) {
-    return res.json({ success: false, message: "Prompt and token required" });
-  }
-  let userData;
-  try {
-    userData = jwt.verify(token, SECRET_KEY);
-  } catch (e) {
-    return res.json({ success: false, message: "Invalid session. Please login again." });
-  }
-  const { data: user } = await supabase
-    .from("users").select("*").eq("id", userData.userId).single();
-  if (!user) {
-    return res.json({ success: false, message: "User not found" });
-  }
+// This endpoint has been removed as the platform now supports image generation only.
+// Any requests to /generate-video will return a not-found error.
 
-  // Check video access
-  if (user.plan === "free") {
-    // Free user — check video_credits
-    if (!user.video_credits || user.video_credits <= 0) {
-      return res.json({
-        success: false,
-        message: "Free videos used! Subscribe ₹69/month for unlimited videos.",
-        upgradeRequired: true
-      });
-    }
-  } else if (user.plan === "image_pro") {
-    // Image only plan — no videos
-    return res.json({
-      success: false,
-      message: "Video generation requires Video Plan! Subscribe ₹69/month for images + videos.",
-      upgradeRequired: true
-    });
-  }
-  // video_pro users — unlimited, no check needed
-
-  try {
-    // Pollinations video API
-    const response = await fetch("https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt) + "?width=1024&height=576&nologo=true&key=" + POLLINATIONS_KEY);
-
-    if (response.ok) {
-      const videoUrl = response.url;
-
-      // Deduct free video credit if free user
-      if (user.plan === "free") {
-        await supabase
-          .from("users")
-          .update({ video_credits: user.video_credits - 1 })
-          .eq("id", user.id);
-      }
-
-      res.json({
-        success: true,
-        videoUrl: videoUrl,
-        videoCreditsLeft: user.plan === "free" ? user.video_credits - 1 : 999
-      });
-    } else {
-      res.json({ success: false, message: "Video generation failed. Please try again!" });
-    }
-
-  } catch (error) {
-    console.error("Video generation error:", error);
-    res.json({ success: false, message: "Video generation failed. Please try again!" });
-  }
-});
 
 // ===== CREATE PAYMENT ORDER =====
 app.post("/create-order", async function(req, res) {

@@ -24,13 +24,10 @@ if (user.plan === "pro") {
 
 // ===== GENERATE BUTTON =====
 const generateBtn = document.getElementById("generateBtn");
-const generateVideoBtn = document.getElementById("generateVideoBtn");
 const promptInput = document.getElementById("promptInput");
-const videoPromptInput = document.getElementById("videoPromptInput");
 const emptyState = document.getElementById("emptyState");
 const loadingState = document.getElementById("loadingState");
 const imageResult = document.getElementById("imageResult");
-const videoResult = document.getElementById("videoResult");
 
 generateBtn.addEventListener("click", async function () {
   const prompt = promptInput.value.trim();
@@ -51,7 +48,6 @@ generateBtn.addEventListener("click", async function () {
   document.getElementById("btnText").textContent = "⏳ Generating...";
   emptyState.style.display = "none";
   imageResult.style.display = "none";
-  videoResult.style.display = "none";
   loadingState.style.display = "block";
   document.getElementById("loadingText").textContent = "Generating your image...";
 
@@ -67,7 +63,7 @@ generateBtn.addEventListener("click", async function () {
     if (data.success) {
       loadingState.style.display = "none";
       imageResult.style.display = "block";
-      document.getElementById("imageOutput").src = data.imageUrl;
+      document.getElementById("imageResult").src = data.imageUrl;
 
       // Download button
       document.getElementById("downloadBtn").onclick = function () {
